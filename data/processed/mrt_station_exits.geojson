@@ -1,0 +1,22 @@
+{
+"type": "FeatureCollection",
+"name": "mrt_station_exits",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "station_id": "zhongxiao_fuxing", "station_name": "Zhongxiao Fuxing", "exit_name_zh": "忠孝復興站出口1", "exit_number": "1", "lon": 121.543143, "lat": 25.041797, "accessible_zh": "否" }, "geometry": { "type": "Point", "coordinates": [ 121.543143, 25.041797 ] } },
+{ "type": "Feature", "properties": { "station_id": "zhongxiao_fuxing", "station_name": "Zhongxiao Fuxing", "exit_name_zh": "忠孝復興站出口2", "exit_number": "2", "lon": 121.543517, "lat": 25.041206, "accessible_zh": "是" }, "geometry": { "type": "Point", "coordinates": [ 121.543517, 25.041206 ] } },
+{ "type": "Feature", "properties": { "station_id": "zhongxiao_fuxing", "station_name": "Zhongxiao Fuxing", "exit_name_zh": "忠孝復興站出口3", "exit_number": "3", "lon": 121.544806, "lat": 25.041467, "accessible_zh": "否" }, "geometry": { "type": "Point", "coordinates": [ 121.544806, 25.041467 ] } },
+{ "type": "Feature", "properties": { "station_id": "zhongxiao_fuxing", "station_name": "Zhongxiao Fuxing", "exit_name_zh": "忠孝復興站出口4", "exit_number": "4", "lon": 121.54506, "lat": 25.041772, "accessible_zh": "否" }, "geometry": { "type": "Point", "coordinates": [ 121.54506, 25.041772 ] } },
+{ "type": "Feature", "properties": { "station_id": "zhongxiao_fuxing", "station_name": "Zhongxiao Fuxing", "exit_name_zh": "忠孝復興站出口5", "exit_number": "5", "lon": 121.543985, "lat": 25.04202, "accessible_zh": "否" }, "geometry": { "type": "Point", "coordinates": [ 121.543985, 25.04202 ] } },
+{ "type": "Feature", "properties": { "station_id": "gongguan", "station_name": "Gongguan", "exit_name_zh": "公館站出口1", "exit_number": "1", "lon": 121.534377, "lat": 25.014509, "accessible_zh": "是" }, "geometry": { "type": "Point", "coordinates": [ 121.534377, 25.014509 ] } },
+{ "type": "Feature", "properties": { "station_id": "gongguan", "station_name": "Gongguan", "exit_name_zh": "公館站出口2", "exit_number": "2", "lon": 121.534721, "lat": 25.014718, "accessible_zh": "是" }, "geometry": { "type": "Point", "coordinates": [ 121.534721, 25.014718 ] } },
+{ "type": "Feature", "properties": { "station_id": "gongguan", "station_name": "Gongguan", "exit_name_zh": "公館站出口3", "exit_number": "3", "lon": 121.534025, "lat": 25.015421, "accessible_zh": "否" }, "geometry": { "type": "Point", "coordinates": [ 121.534025, 25.015421 ] } },
+{ "type": "Feature", "properties": { "station_id": "gongguan", "station_name": "Gongguan", "exit_name_zh": "公館站出口4", "exit_number": "4", "lon": 121.533623, "lat": 25.015148, "accessible_zh": "否" }, "geometry": { "type": "Point", "coordinates": [ 121.533623, 25.015148 ] } },
+{ "type": "Feature", "properties": { "station_id": "zhongshan", "station_name": "Zhongshan", "exit_name_zh": "中山站出口1", "exit_number": "1", "lon": 121.520303, "lat": 25.052414, "accessible_zh": "否" }, "geometry": { "type": "Point", "coordinates": [ 121.520303, 25.052414 ] } },
+{ "type": "Feature", "properties": { "station_id": "zhongshan", "station_name": "Zhongshan", "exit_name_zh": "中山站出口4", "exit_number": "4", "lon": 121.520306, "lat": 25.052858, "accessible_zh": "是" }, "geometry": { "type": "Point", "coordinates": [ 121.520306, 25.052858 ] } },
+{ "type": "Feature", "properties": { "station_id": "zhongshan", "station_name": "Zhongshan", "exit_name_zh": "中山站出口2", "exit_number": "2", "lon": 121.521063, "lat": 25.052382, "accessible_zh": "否" }, "geometry": { "type": "Point", "coordinates": [ 121.521063, 25.052382 ] } },
+{ "type": "Feature", "properties": { "station_id": "zhongshan", "station_name": "Zhongshan", "exit_name_zh": "中山站出口3", "exit_number": "3", "lon": 121.521154, "lat": 25.052611, "accessible_zh": "否" }, "geometry": { "type": "Point", "coordinates": [ 121.521154, 25.052611 ] } },
+{ "type": "Feature", "properties": { "station_id": "zhongshan", "station_name": "Zhongshan", "exit_name_zh": "中山站出口5", "exit_number": "5", "lon": 121.519329, "lat": 25.053037, "accessible_zh": "是" }, "geometry": { "type": "Point", "coordinates": [ 121.519329, 25.053037 ] } },
+{ "type": "Feature", "properties": { "station_id": "zhongshan", "station_name": "Zhongshan", "exit_name_zh": "中山站出口6", "exit_number": "6", "lon": 121.519007, "lat": 25.052833, "accessible_zh": "是" }, "geometry": { "type": "Point", "coordinates": [ 121.519007, 25.052833 ] } }
+]
+}

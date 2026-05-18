@@ -1,0 +1,10 @@
+catchment_method,station_id,station_name,total_osm_pois
+circular_center_500m,gongguan,Gongguan,733
+circular_center_500m,zhongshan,Zhongshan,869
+circular_center_500m,zhongxiao_fuxing,Zhongxiao Fuxing,561
+exit_union_500m,gongguan,Gongguan,789
+exit_union_500m,zhongshan,Zhongshan,1076
+exit_union_500m,zhongxiao_fuxing,Zhongxiao Fuxing,641
+walk_network_500m,gongguan,Gongguan,613
+walk_network_500m,zhongshan,Zhongshan,635
+walk_network_500m,zhongxiao_fuxing,Zhongxiao Fuxing,409

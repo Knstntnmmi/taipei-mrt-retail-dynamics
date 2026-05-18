@@ -1,0 +1,4 @@
+station_id,station_name,food,cafe,convenience,apparel/fashion,lifestyle/design,education,health,services,other
+gongguan,Gongguan,0.3525,0.0902,0.0301,0.0792,0.0383,0.0068,0.056,0.168,0.179
+zhongshan,Zhongshan,0.3749,0.09,0.0392,0.0911,0.0254,0.0035,0.0346,0.1845,0.1569
+zhongxiao_fuxing,Zhongxiao Fuxing,0.4599,0.0873,0.0588,0.0766,0.025,0.0053,0.0463,0.1337,0.107

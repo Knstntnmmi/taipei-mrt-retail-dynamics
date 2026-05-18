@@ -1,0 +1,4 @@
+station_id,station_name,station_name_zh,month,verified_metric,entries,exits,total_station_flow,source_file
+zhongshan,Zhongshan,中山,2026-03,Taipei Metro OD passenger flow,264501,286837,551338,/Users/konstantin/Documents/Playground/retail_vacancy_prediction/data/raw/mrt_od_latest.csv
+zhongxiao_fuxing,Zhongxiao Fuxing,忠孝復興,2026-03,Taipei Metro OD passenger flow,234498,244744,479242,/Users/konstantin/Documents/Playground/retail_vacancy_prediction/data/raw/mrt_od_latest.csv
+gongguan,Gongguan,公館,2026-03,Taipei Metro OD passenger flow,161390,163588,324978,/Users/konstantin/Documents/Playground/retail_vacancy_prediction/data/raw/mrt_od_latest.csv

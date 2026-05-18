@@ -1,0 +1,4 @@
+station_id,station_name,reachable_node_count,network_catchment_area_sqm,circular_buffer_area_sqm,network_area_pct_of_circular
+gongguan,Gongguan,637,414689.4,784137.1,52.9
+zhongxiao_fuxing,Zhongxiao Fuxing,380,491547.4,784137.1,62.7
+zhongshan,Zhongshan,631,511001.3,784137.1,65.2

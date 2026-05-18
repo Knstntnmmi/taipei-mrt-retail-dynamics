@@ -1,0 +1,16 @@
+station_id,station_name,exit_name_zh,exit_number,lon,lat,accessible_zh
+zhongxiao_fuxing,Zhongxiao Fuxing,忠孝復興站出口1,1,121.543143,25.041797,否
+zhongxiao_fuxing,Zhongxiao Fuxing,忠孝復興站出口2,2,121.543517,25.041206,是
+zhongxiao_fuxing,Zhongxiao Fuxing,忠孝復興站出口3,3,121.544806,25.041467,否
+zhongxiao_fuxing,Zhongxiao Fuxing,忠孝復興站出口4,4,121.54506,25.041772,否
+zhongxiao_fuxing,Zhongxiao Fuxing,忠孝復興站出口5,5,121.543985,25.04202,否
+gongguan,Gongguan,公館站出口1,1,121.534377,25.014509,是
+gongguan,Gongguan,公館站出口2,2,121.534721,25.014718,是
+gongguan,Gongguan,公館站出口3,3,121.534025,25.015421,否
+gongguan,Gongguan,公館站出口4,4,121.533623,25.015148,否
+zhongshan,Zhongshan,中山站出口1,1,121.520303,25.052414,否
+zhongshan,Zhongshan,中山站出口4,4,121.520306,25.052858,是
+zhongshan,Zhongshan,中山站出口2,2,121.521063,25.052382,否
+zhongshan,Zhongshan,中山站出口3,3,121.521154,25.052611,否
+zhongshan,Zhongshan,中山站出口5,5,121.519329,25.053037,是
+zhongshan,Zhongshan,中山站出口6,6,121.519007,25.052833,是
