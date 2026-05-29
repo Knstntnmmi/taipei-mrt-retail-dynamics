@@ -89,6 +89,12 @@ The preferred method remains **buffer-first spatial joining**. All POI results s
 
 ## Main maps and charts
 
+### NCCU Innofest A1 poster
+
+[Download the A1 poster PDF](outputs/poster/nccu_innofest_taipei_mrt_retail_dynamics_a1_poster.pdf)
+
+![NCCU Innofest A1 poster preview](outputs/poster/nccu_innofest_taipei_mrt_retail_dynamics_a1_poster_preview.png)
+
 ### Combined POI map
 
 ![Combined POI map](outputs/maps/combined_poi_map.png)
@@ -219,6 +225,8 @@ The OSM scripts require internet access because they query OpenStreetMap through
 
 - [Final Markdown report](reports/taipei_mrt_retail_dynamics_report.md)
 - [Notebook workflow](notebooks/01_mrt_retail_analysis.ipynb)
+- [NCCU Innofest A1 poster PDF](outputs/poster/nccu_innofest_taipei_mrt_retail_dynamics_a1_poster.pdf)
+- [Poster generator script](scripts/11_generate_innofest_poster.py)
 
 ### Spatial outputs
 
