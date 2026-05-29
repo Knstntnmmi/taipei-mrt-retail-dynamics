@@ -1,0 +1,19 @@
+專題簡介 Project Abstract
+
+中文簡介
+
+本專題以「台北捷運站周邊零售動態」為主題，分析公館、忠孝復興與中山三個捷運站周邊 500 公尺範圍內的商業密度、交通連結與都市空間特徵。研究將每個捷運站視為一個小尺度都市生活圈，整合捷運站資料、人口估計、土地使用、建築型態、零售 POI、巴士站點與捷運運量等資料，建立可比較的空間分析單位。
+
+本研究的核心問題是：不同捷運站周邊的零售結構是否受到人流、轉乘功能、土地使用與周邊都市機能的影響？初步分析顯示，三個站點不應被視為相同類型的商業節點。公館具有大學、夜市與學生消費特徵，偏向餐飲、咖啡、書店與中低價服務；忠孝復興是高轉乘量與高端零售結合的商業核心，與百貨、地下街、時尚與辦公活動密切相關；中山則呈現購物、文化、觀光與線性公共空間結合的複合型零售環境。
+
+方法上，本專題採用 500 公尺站點緩衝區作為分析單位，透過 GIS 空間疊合與分類統計，比較各站點的人口基礎、土地使用比例、零售類別、交通連結與商業型態。研究結果可協助理解台北捷運站周邊商業發展的差異，也提供都市規劃、零售選址與交通導向發展的初步參考。
+
+⸻
+
+English Abstract
+
+This project examines retail dynamics around three Taipei MRT stations: Gongguan, Zhongxiao Fuxing, and Zhongshan. Using a 500-meter station-catchment framework, the study compares foot traffic, commercial density, land-use patterns, demographic proxies, building intensity, retail points of interest, bus connectivity, and MRT ridership. Each station is treated as a small-area urban unit rather than as an isolated transit stop.
+
+The central question is whether retail structures around MRT stations differ according to passenger flow, transfer centrality, land-use composition, and surrounding urban functions. The preliminary findings suggest that the three stations represent distinct commercial archetypes. Gongguan functions as a university-linked food-service and student-consumption district, with strong concentrations of restaurants, cafés, bookstores, and affordable services. Zhongxiao Fuxing operates as a premium transfer-retail hub, shaped by its cross-line interchange role, department stores, metro-mall connections, fashion retail, cosmetics, electronics, and office activity. Zhongshan shows the strongest combination of destination shopping, cultural consumption, tourism, cafés, design-oriented retail, and public-space activation.
+
+Methodologically, the project uses GIS-based 500-meter buffers around each station and applies a buffer-first spatial-joining workflow. Station metadata, demographic estimates, land-use layers, building data, retail POIs, bus-stop data, and ridership indicators are aggregated into the same spatial unit to ensure comparability. The project demonstrates how small-area spatial analysis can reveal different forms of transit-oriented commercial development in Taipei. Its results offer an initial empirical basis for urban retail analysis, station-area planning, and transit-oriented development research.
