@@ -1,0 +1,15 @@
+analysis_category,openings,closures,open_plus_close,opening_share_pct,closure_share_pct,closure_rate_of_events_pct,net_change
+construction,983,703,1686,5.0,4.0,41.7,280
+education,169,68,237,0.86,0.39,28.69,101
+finance,98,210,308,0.5,1.19,68.18,-112
+food/cafe,4106,3708,7814,20.89,21.08,47.45,398
+health,0,0,0,0.0,0.0,0.0,0
+information/media,348,356,704,1.77,2.02,50.57,-8
+lifestyle/culture,1427,1007,2434,7.26,5.72,41.37,420
+manufacturing,401,316,717,2.04,1.8,44.07,85
+other,86,99,185,0.44,0.56,53.51,-13
+professional,857,706,1563,4.36,4.01,45.17,151
+real estate,87,73,160,0.44,0.41,45.62,14
+services,1960,1492,3452,9.97,8.48,43.22,468
+shop/retail,9107,8793,17900,46.34,49.98,49.12,314
+transport/storage,22,63,85,0.11,0.36,74.12,-41

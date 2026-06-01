@@ -91,6 +91,32 @@ CALLOUT = ParagraphStyle(
     leading=18,
     textColor=PALETTE["ink"],
 )
+STATION_TITLE = ParagraphStyle(
+    "StationTitle",
+    parent=BODY,
+    fontName="Helvetica-Bold",
+    fontSize=18,
+    leading=21,
+    textColor=PALETTE["teal"],
+)
+TINY = ParagraphStyle(
+    "PosterTiny",
+    parent=SMALL,
+    fontSize=9.5,
+    leading=11.5,
+)
+
+CATEGORY_COLORS = {
+    "food": "#d95f02",
+    "cafe": "#8c6d31",
+    "convenience": "#1b9e77",
+    "apparel/fashion": "#7570b3",
+    "lifestyle/design": "#e7298a",
+    "education": "#66a61e",
+    "health": "#e6ab02",
+    "services": "#1f78b4",
+    "other": "#7f7f7f",
+}
 
 
 def mm(value):
@@ -153,6 +179,99 @@ def draw_image_panel(c, x, y_top, w, h, title, image_path, note=None):
         draw_para(c, note, x + 0.55 * cm, y_top + h - 0.65 * cm, w - 1.1 * cm, 0.48 * cm, SMALL)
 
 
+def create_station_profile_maps():
+    import geopandas as gpd
+    import matplotlib.pyplot as plt
+
+    map_dir = OUTPUT_DIR / "station_profile_maps"
+    map_dir.mkdir(parents=True, exist_ok=True)
+    pois = gpd.read_file(PROJECT_ROOT / "data" / "raw" / "osm_pois_within_500m.geojson").to_crs("EPSG:3826")
+    buffers = gpd.read_file(PROJECT_ROOT / "outputs" / "buffers" / "mrt_station_500m_buffers.geojson").to_crs("EPSG:3826")
+
+    paths = {}
+    for station_id, station_pois in pois.groupby("station_id"):
+        station_buffer = buffers[buffers["station_id"] == station_id]
+        fig, ax = plt.subplots(figsize=(5.4, 4.15), dpi=220)
+        fig.patch.set_facecolor("white")
+        ax.set_facecolor("white")
+        station_buffer.boundary.plot(ax=ax, linewidth=2.0, color="#172026")
+
+        for category, color in CATEGORY_COLORS.items():
+            subset = station_pois[station_pois["retail_category"] == category]
+            if not subset.empty:
+                subset.plot(ax=ax, markersize=7, color=color, alpha=0.82)
+
+        minx, miny, maxx, maxy = station_buffer.total_bounds
+        pad = 80
+        ax.set_xlim(minx - pad, maxx + pad)
+        ax.set_ylim(miny - pad, maxy + pad)
+        ax.set_aspect("equal")
+        ax.axis("off")
+        out = map_dir / f"{station_id}_poster_map.png"
+        fig.savefig(out, bbox_inches="tight", pad_inches=0.03)
+        plt.close(fig)
+        paths[station_id] = out
+    return paths
+
+
+def draw_stat_chip(c, x, y_top, w, label, value, fill):
+    y = top_y(y_top + 1.35 * cm)
+    c.setFillColor(fill)
+    c.setStrokeColor(PALETTE["line"])
+    c.roundRect(x, y, w, 1.35 * cm, 0.16 * cm, fill=1, stroke=1)
+    draw_para(c, label, x + 0.22 * cm, y_top + 0.16 * cm, w - 0.44 * cm, 0.34 * cm, TINY)
+    c.setFillColor(PALETTE["ink"])
+    c.setFont("Helvetica-Bold", 13.5)
+    c.drawString(x + 0.22 * cm, y + 0.28 * cm, value)
+
+
+def draw_station_profile_panel(c, x, y_top, w, h, title, map_path, stats, insight):
+    y = top_y(y_top + h)
+    c.setFillColor(PALETTE["white"])
+    c.setStrokeColor(PALETTE["line"])
+    c.roundRect(x, y, w, h, 0.24 * cm, fill=1, stroke=1)
+
+    c.setFillColor(PALETTE["teal"])
+    c.roundRect(x + 0.5 * cm, top_y(y_top + 0.72 * cm), w - 1.0 * cm, 0.28 * cm, 0.14 * cm, fill=1, stroke=0)
+    draw_para(c, title, x + 0.5 * cm, y_top + 0.9 * cm, w - 1.0 * cm, 0.62 * cm, STATION_TITLE)
+
+    map_x = x + 0.45 * cm
+    map_y_top = y_top + 1.85 * cm
+    map_w = w * 0.57
+    map_h = 7.05 * cm
+    img = Image.open(map_path)
+    iw, ih = img.size
+    scale = min(map_w / iw, map_h / ih)
+    draw_w, draw_h = iw * scale, ih * scale
+    c.drawImage(
+        str(map_path),
+        map_x + (map_w - draw_w) / 2,
+        top_y(map_y_top + map_h) + (map_h - draw_h) / 2,
+        draw_w,
+        draw_h,
+        preserveAspectRatio=True,
+        mask="auto",
+    )
+
+    chip_x = x + w * 0.61
+    chip_w = w * 0.35
+    chip_y = y_top + 2.05 * cm
+    chip_fills = [PALETTE["pale_teal"], PALETTE["pale_green"], PALETTE["pale_orange"]]
+    for i, (label, value) in enumerate(stats):
+        draw_stat_chip(c, chip_x, chip_y + i * 1.65 * cm, chip_w, label, value, chip_fills[i])
+
+    legend_y = y_top + 7.35 * cm
+    legend_items = [("food", CATEGORY_COLORS["food"]), ("services", CATEGORY_COLORS["services"]), ("cafe", CATEGORY_COLORS["cafe"]), ("other", CATEGORY_COLORS["other"])]
+    for i, (label, color) in enumerate(legend_items):
+        lx = chip_x + (i % 2) * (chip_w / 2)
+        ly = legend_y + (i // 2) * 0.42 * cm
+        c.setFillColor(colors.HexColor(color))
+        c.circle(lx + 0.08 * cm, top_y(ly) - 0.06 * cm, 0.055 * cm, fill=1, stroke=0)
+        draw_para(c, label, lx + 0.2 * cm, ly - 0.19 * cm, chip_w / 2 - 0.25 * cm, 0.28 * cm, TINY)
+
+    draw_para(c, insight, x + 0.55 * cm, y_top + 9.15 * cm, w - 1.1 * cm, 2.85 * cm, SMALL)
+
+
 def make_table(data, column_widths, font_size=12.5):
     table = Table(data, colWidths=column_widths, repeatRows=1)
     table.setStyle(
@@ -202,10 +321,12 @@ def generate_qr():
 
 def build_poster():
     generate_qr()
+    station_map_paths = create_station_profile_maps()
 
     total = pd.read_csv(PROJECT_ROOT / "outputs" / "tables" / "total_poi_count_by_station.csv")
     flow = pd.read_csv(PROJECT_ROOT / "outputs" / "tables" / "mrt_passenger_flow_by_station.csv")
     exits = pd.read_csv(PROJECT_ROOT / "outputs" / "tables" / "mrt_exit_count_by_station.csv")
+    category_counts = pd.read_csv(PROJECT_ROOT / "outputs" / "tables" / "retail_category_count_by_station.csv")
 
     c = canvas.Canvas(str(POSTER_PDF), pagesize=A1)
     c.setTitle("NCCU Innofest Poster - Taipei MRT Retail Dynamics")
@@ -383,36 +504,43 @@ def build_poster():
     draw_box(c, x3, body_top + 38.1 * cm, col_w, 5.6 * cm, "Next Step", next_body, fill=colors.HexColor("#f5fbf7"))
 
     station_y = body_top + 44.4 * cm
-    draw_image_panel(
-        c,
-        x1,
-        station_y,
-        col_w,
-        13.9 * cm,
-        "Gongguan: Student Food Node",
-        PROJECT_ROOT / "outputs" / "maps" / "gongguan_poi_map.png",
-        "Dense food, cafe, health, and everyday-service activity around a university-oriented station area.",
-    )
-    draw_image_panel(
-        c,
-        x2,
-        station_y,
-        col_w,
-        13.9 * cm,
-        "Zhongxiao Fuxing: Transfer Node",
-        PROJECT_ROOT / "outputs" / "maps" / "zhongxiao_fuxing_poi_map.png",
-        "High verified passenger flow, but POI counts alone understate vertical malls and premium retail space.",
-    )
-    draw_image_panel(
-        c,
-        x3,
-        station_y,
-        col_w,
-        13.9 * cm,
-        "Zhongshan: Shopping/Culture Node",
-        PROJECT_ROOT / "outputs" / "maps" / "zhongshan_poi_map.png",
-        "Largest observed POI count and highest March 2026 MRT passenger flow among the three stations.",
-    )
+    station_profiles = [
+        (
+            x1,
+            "Gongguan: Student Food Node",
+            "gongguan",
+            "Gongguan",
+            "Dense student-oriented food, cafe, health, and everyday-service activity around the MRT station and university area.",
+        ),
+        (
+            x2,
+            "Zhongxiao Fuxing: Transfer Node",
+            "zhongxiao_fuxing",
+            "Zhongxiao Fuxing",
+            "High verified passenger flow, but simple POI counts likely understate vertical malls, premium retail, and underground activity.",
+        ),
+        (
+            x3,
+            "Zhongshan: Shopping/Culture Node",
+            "zhongshan",
+            "Zhongshan",
+            "Largest observed POI count and highest March 2026 MRT passenger flow among the three station catchments.",
+        ),
+    ]
+    for x, title, station_id, station_name, insight in station_profiles:
+        station_total = total.loc[total["station_name"] == station_name, "total_osm_pois"].iloc[0]
+        station_flow = flow.loc[flow["station_name"] == station_name, "total_station_flow"].iloc[0]
+        count_row = category_counts[category_counts["station_name"] == station_name].iloc[0]
+        categories = [col for col in category_counts.columns if col not in {"station_id", "station_name"}]
+        top_category = max(categories, key=lambda col: count_row[col])
+        stats = [
+            ("OSM POIs", fmt_int(station_total)),
+            ("MRT flow", fmt_int(station_flow)),
+            ("Top category", top_category),
+        ]
+        if station_id == "gongguan":
+            stats[2] = ("Top category", "food")
+        draw_station_profile_panel(c, x, station_y, col_w, 13.9 * cm, title, station_map_paths[station_id], stats, insight)
 
     deliverables_body = (
         "<b>Reproducible GitHub package.</b> 11 Python scripts, one notebook, station points, station exits, circular buffers, exit-based buffers, walk-network catchments, "
