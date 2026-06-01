@@ -12,19 +12,19 @@ The project creates station buffers, collects OpenStreetMap points of interest, 
 
 ## Front-page finding: three MRT station retail profiles
 
-The main GitHub visual is now focused only on the three MRT stations in the project. It loops through Gongguan, Zhongxiao Fuxing, and Zhongshan, showing each station's 500 m catchment map, retail category mix, current mapped places, and March 2026 Taipei Metro passenger flow.
+The main GitHub visual is focused only on the three MRT stations in the project. It loops through Gongguan, Zhongxiao Fuxing, and Zhongshan, showing each station's 500 m catchment map, retail category mix, current mapped places, March 2026 Taipei Metro passenger flow, and latest station-level business openings/closures.
 
 ![Animated station-by-station MRT retail dynamics loop](outputs/charts/mrt_station_retail_dynamics_loop.gif)
 
 Station comparison:
 
-| Station | Framing | Current mapped places | March 2026 station flow | Largest mapped category |
-|---|---|---:|---:|---|
-| Gongguan | Student food node | 732 | 324,978 | Food |
-| Zhongxiao Fuxing | Transfer and premium retail node | 561 | 479,242 | Food |
-| Zhongshan | Shopping, culture, and tourism node | 867 | 551,338 | Food |
+| Station | Framing | Current mapped places | March 2026 station flow | Latest station-level business events |
+|---|---|---:|---:|---:|
+| Gongguan | Student food node | 732 | 324,978 | +2 openings / -1 closure |
+| Zhongxiao Fuxing | Transfer and premium retail node | 561 | 479,242 | +3 openings / -2 closures |
+| Zhongshan | Shopping, culture, and tourism node | 867 | 551,338 | +12 openings / -11 closures |
 
-The business opening/closure dataset is still included in the repository, but it is not used as the front-page animation because the available official records are not geocoded to the three 500 m MRT station catchments. It is kept as a separate context and limitation section.
+The latest station-level opening/closure counts come from official Taipei City geocoded business establishment and closure files for April 2026. The longer 2022-2025 opening/closure percentages are still included as city-level industry context because the full historical records are not available here as a clean station-geocoded panel.
 
 ## Product / VC-style angle
 
@@ -88,7 +88,8 @@ taipei-mrt-retail-dynamics/
 | OpenStreetMap points of interest | Proxy metric | Estimates commercial density and retail mix |
 | Taipei MRT station exits | Verified local source file | Creates exit-based catchment sensitivity check |
 | Taipei Metro passenger flow | Verified local source file | Adds station-level entries-plus-exits comparison |
-| Business opening/closure data | Verified official data | Adds 2022-present opening/closing percentages by business category |
+| Latest station-level business opening/closure data | Verified official Taipei City geocoded data | Adds April 2026 opening/closure counts inside each 500 m station catchment |
+| Longer opening/closure percentage data | Verified official city and national industry data | Adds 2022-present opening/closing percentages by business category as context |
 | Business turnover / revenue data | Not included | Requires separate official source and transparent spatial matching |
 | Demographic, land-use, bus-stop, building-footprint data | Placeholder only | Future extension layers |
 
@@ -119,6 +120,10 @@ taipei-mrt-retail-dynamics/
    - Taipei city-level annual industry openings/closures, 2022-2025
    - Ministry of Economic Affairs company-registration monthly industry openings/closures, 2022-01 through latest available month
    - category percentages for shop/retail, food/cafe, services, lifestyle/culture, education, health, and other industries
+12. Add latest official station-level business events:
+   - Taipei City geocoded business establishment records
+   - Taipei City geocoded business closure records
+   - spatial join into the three 500 m MRT station catchments
 
 The preferred method remains **buffer-first spatial joining**. All point-of-interest results should be interpreted as OpenStreetMap-based proxy indicators, not as official business counts.
 
@@ -154,6 +159,8 @@ The preferred method remains **buffer-first spatial joining**. All point-of-inte
 
 ### Official business opening/closing dynamics
 
+![Station-level business openings and closures, latest month](outputs/charts/station_business_open_close_latest_month.png)
+
 ![Taipei business openings and closures by category](outputs/charts/taipei_business_open_close_by_category_2022_2025.png)
 
 ![Business opening and closing percentage shares](outputs/charts/business_open_close_percentage_shares_2022_present.png)
@@ -162,6 +169,7 @@ Data sources:
 
 - [Taipei City annual business registrations by industry](https://data.gov.tw/dataset/131242)
 - [Ministry of Economic Affairs company-registration data portal](https://data.gcis.nat.gov.tw/od/detail?oid=DB0B8C8F-9C1A-406F-8760-F7EA18942269)
+- [Taipei City geocoded business establishment/change/closure records](https://data.taipei/dataset/detail?id=5fdefcca-e0a6-41bc-a520-7c8f067caad3)
 
 ## Key results
 
@@ -225,9 +233,23 @@ Station exits matter because they change where passengers enter the street netwo
 
 Passenger flow is a verified MRT metric, but it is still only a proxy for retail foot traffic. It measures station usage, not actual spending, store visits, or pedestrian dwell time inside the 500 m catchment.
 
+### Latest station-level business openings and closures
+
+The project now includes station-level business opening/closure counts from official Taipei City geocoded monthly establishment and closure files. These records contain business addresses, event dates, longitude, and latitude, so they can be spatially joined into the three 500 m MRT catchments.
+
+Latest available geocoded month in the downloaded files: April 2026.
+
+| Station | Openings | Closures | Net change | Closure rate of events |
+|---|---:|---:|---:|---:|
+| Gongguan | 2 | 1 | +1 | 33.33% |
+| Zhongxiao Fuxing | 3 | 2 | +1 | 40.00% |
+| Zhongshan | 12 | 11 | +1 | 47.83% |
+
+This is the strongest station-level opening/closure evidence currently in the repository. The missing part is a full 2022-present historical station-level panel with the same address-level or coordinate-level precision.
+
 ### Official opening/closing percentages
 
-The professor's requested opening/closing component is now included as a separate verified metric. It is not mixed into the station-buffer OpenStreetMap point-of-interest counts because the official business-registration data is not geocoded to the 500 m MRT catchments in this version.
+The longer 2022-present opening/closing percentage component is included as a separate verified metric. It is not mixed into the station-buffer OpenStreetMap point-of-interest counts because this longer official business-registration data is not geocoded to the 500 m MRT catchments in this version.
 
 Taipei city-level business-registration dynamics, 2022-2025:
 
@@ -262,7 +284,8 @@ The official business-registration data adds a turnover-pressure context: retail
 
 - OpenStreetMap points of interest are not official business records.
 - OpenStreetMap completeness varies by area and by tag.
-- Official business opening/closing data is currently analyzed at city/industry level, not as geocoded point records inside each MRT catchment.
+- Latest Taipei City business opening/closure records are geocoded and joined to the three station catchments, but only for the latest available monthly files.
+- The full 2022-present opening/closure history is currently analyzed at city/industry level, not as geocoded point records inside each MRT catchment.
 - A circular 500 m buffer does not model pedestrian barriers, exits, underground passages, or actual walking paths.
 - The walk-network catchment uses an approximate convex-hull service area from reachable OpenStreetMap nodes, not a full network-service polygon.
 - Point-of-interest counts do not measure sales, rent, vacancy, store size, turnover, or customer volume.
@@ -292,6 +315,7 @@ python scripts/08_passenger_flow_metric.py
 python scripts/09_make_validation_sample.py
 python scripts/10_compare_catchment_methods.py
 python scripts/12_collect_business_open_close.py
+python scripts/15_collect_station_business_events.py
 python scripts/14_make_station_frontpage_animation.py
 python scripts/04_make_maps_and_charts.py
 python scripts/05_generate_report.py
@@ -308,6 +332,7 @@ The OpenStreetMap scripts require internet access because they query OpenStreetM
 - [NCCU Innofest A1 poster PDF](outputs/poster/nccu_innofest_taipei_mrt_retail_dynamics_a1_poster.pdf)
 - [Poster generator script](scripts/11_generate_innofest_poster.py)
 - [Station front-page animation script](scripts/14_make_station_frontpage_animation.py)
+- [Station-level business event script](scripts/15_collect_station_business_events.py)
 
 ### Spatial outputs
 
@@ -326,6 +351,8 @@ The OpenStreetMap scripts require internet access because they query OpenStreetM
 - [Catchment method category comparison](outputs/tables/catchment_method_category_comparison.csv)
 - [Passenger flow by station](outputs/tables/mrt_passenger_flow_by_station.csv)
 - [Manual OpenStreetMap validation sample](outputs/tables/manual_osm_category_validation_sample.csv)
+- [Station-level business openings and closures, latest month](outputs/tables/station_business_open_close_latest_month_summary.csv)
+- [Station-level business event records, latest month](outputs/tables/station_business_events_latest_month.csv)
 - [Taipei business opening/closing category totals](outputs/tables/taipei_business_open_close_category_totals_2022_2025.csv)
 - [Taipei business opening/closing percentages by category and year](outputs/tables/taipei_business_open_close_percentages_by_category_2022_2025.csv)
 - [Ministry of Economic Affairs monthly business opening/closing data through latest available month](outputs/tables/gcis_business_open_close_by_industry_monthly_2022_present.csv)
@@ -335,11 +362,12 @@ The OpenStreetMap scripts require internet access because they query OpenStreetM
 
 - [Animated station-by-station front-page loop](outputs/charts/mrt_station_retail_dynamics_loop.gif)
 - [Static station front-page dashboard](outputs/charts/mrt_station_retail_dynamics_frontpage.png)
+- [Station-level business openings and closures, latest month](outputs/charts/station_business_open_close_latest_month.png)
 
 ## Next improvements
 
-1. Replace the convex-hull walk-network catchments with more precise network-service polygons.
-2. Geocode official opening/closure business records if address-level records with usable industry labels become available.
-3. Manually validate the OpenStreetMap category sample and refine the classification rules.
-4. Add village-level demographics, land-use polygons, bus stops, and building footprints.
-5. Compare point-of-interest density, passenger flow, and opening/closing rates across more MRT stations.
+1. Build a full 2022-present station-level opening/closure panel by collecting archived address-level business event records and geocoding any records without coordinates.
+2. Add business category labels to station-level opening/closure events if official industry fields or reliable classification keys become available.
+3. Replace the convex-hull walk-network catchments with more precise network-service polygons.
+4. Manually validate the OpenStreetMap category sample and refine the classification rules.
+5. Add village-level demographics, land-use polygons, bus stops, and building footprints.

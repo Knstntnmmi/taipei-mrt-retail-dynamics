@@ -1,0 +1,4 @@
+station_id,station_name,event_month,closures,openings,net_change,total_events,closure_rate_of_events_pct
+gongguan,Gongguan,2026-04,1,2,1,3,33.33
+zhongshan,Zhongshan,2026-04,11,12,1,23,47.83
+zhongxiao_fuxing,Zhongxiao Fuxing,2026-04,2,3,1,5,40.0

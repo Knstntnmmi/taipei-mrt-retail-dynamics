@@ -68,9 +68,19 @@ def load_inputs() -> pd.DataFrame:
     categories = pd.read_csv(TABLES_DIR / "retail_category_count_by_station.csv")
     totals = pd.read_csv(TABLES_DIR / "total_poi_count_by_station.csv")
     flow = pd.read_csv(TABLES_DIR / "mrt_passenger_flow_by_station.csv")
+    events = pd.read_csv(TABLES_DIR / "station_business_open_close_latest_month_summary.csv")
 
     categories = categories.merge(totals[["station_id", "total_osm_pois"]], on="station_id")
     categories = categories.merge(flow[["station_id", "total_station_flow"]], on="station_id")
+    categories = categories.merge(
+        events[["station_id", "event_month", "openings", "closures", "net_change"]],
+        on="station_id",
+        how="left",
+    )
+    categories[["openings", "closures", "net_change"]] = categories[
+        ["openings", "closures", "net_change"]
+    ].fillna(0).astype(int)
+    categories["event_month"] = categories["event_month"].fillna("latest month")
     return categories
 
 
@@ -87,7 +97,8 @@ def draw_card(ax, title: str, value: str, subtitle: str, color: str) -> None:
             transform=ax.transAxes,
         )
     )
-    ax.text(0.08, 0.58, value, transform=ax.transAxes, fontsize=22, weight="bold", color=color)
+    value_size = 18 if "/" in value else 22
+    ax.text(0.07, 0.58, value, transform=ax.transAxes, fontsize=value_size, weight="bold", color=color)
     ax.text(0.08, 0.33, title, transform=ax.transAxes, fontsize=10.5, weight="bold", color=TEXT)
     ax.text(0.08, 0.18, subtitle, transform=ax.transAxes, fontsize=9.2, color=MUTED)
 
@@ -185,7 +196,7 @@ def draw_station_frame(station_id: str, categories: pd.DataFrame) -> plt.Figure:
     title_ax.text(
         0,
         0.24,
-        "Station-by-station loop for Gongguan, Zhongxiao Fuxing, and Zhongshan: 500 m catchment retail mix and MRT passenger flow",
+        "Station-by-station loop for Gongguan, Zhongxiao Fuxing, and Zhongshan: retail mix, passenger flow, and latest business events",
         fontsize=13,
         color=MUTED,
         transform=title_ax.transAxes,
@@ -224,10 +235,10 @@ def draw_station_frame(station_id: str, categories: pd.DataFrame) -> plt.Figure:
     top_category = max(CATEGORY_LABELS, key=lambda col: station[col])
     draw_card(
         fig.add_subplot(grid[1, 7:8]),
-        "Top category",
-        CATEGORY_LABELS[top_category],
-        f"{int(station[top_category]):,} mapped places",
-        CATEGORY_COLORS[top_category],
+        "Latest station events",
+        f"+{int(station['openings'])} / -{int(station['closures'])}",
+        f"{station['event_month']} openings / closures",
+        "#2E9D68" if station["net_change"] >= 0 else "#D86135",
     )
 
     map_ax = fig.add_subplot(grid[2, 0:3])
@@ -266,7 +277,7 @@ def draw_station_frame(station_id: str, categories: pd.DataFrame) -> plt.Figure:
     note_ax.text(
         0,
         0.18,
-        "Important: station-area place counts are OpenStreetMap proxy data. Passenger flow is verified Taipei Metro station data.",
+        "Important: mapped places are OpenStreetMap proxy data. Passenger flow and latest monthly business openings/closures are verified station-level data.",
         fontsize=10.8,
         color=MUTED,
         transform=note_ax.transAxes,

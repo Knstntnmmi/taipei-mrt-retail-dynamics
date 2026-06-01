@@ -18,15 +18,16 @@ It shows each station's:
 - mapped retail and service places from OpenStreetMap
 - retail category mix
 - March 2026 Taipei Metro passenger flow
+- latest official Taipei City station-level business openings and closures
 - comparison against the other two stations
 
 ## Main Evidence
 
-| Station | Current mapped places | March 2026 station flow | Main observed category |
-|---|---:|---:|---|
-| Gongguan | 732 | 324,978 | Food |
-| Zhongxiao Fuxing | 561 | 479,242 | Food |
-| Zhongshan | 867 | 551,338 | Food |
+| Station | Current mapped places | March 2026 station flow | Latest station-level business events |
+|---|---:|---:|---:|
+| Gongguan | 732 | 324,978 | +2 openings / -1 closure |
+| Zhongxiao Fuxing | 561 | 479,242 | +3 openings / -2 closures |
+| Zhongshan | 867 | 551,338 | +12 openings / -11 closures |
 
 ## Important Method Note
 
@@ -34,7 +35,8 @@ The project separates verified metrics from proxy metrics:
 
 - Station coordinates, 500 m buffers, station exits, and Taipei Metro passenger flow are verified project inputs or official data.
 - OpenStreetMap points of interest are proxy data for the visible commercial mix around each station.
-- Official business opening and closure data is included as city-level industry context, but it is not presented as station-level evidence because the available records are not geocoded to the three 500 m station catchments.
+- Latest Taipei City business establishment and closure records are geocoded and are spatially joined into the three station catchments.
+- Longer 2022-present opening and closure percentages are still city-level industry context, because the full historical business-event panel is not yet available as clean geocoded station-level records.
 
 ## Reproducibility
 
