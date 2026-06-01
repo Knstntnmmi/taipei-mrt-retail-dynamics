@@ -155,6 +155,26 @@ def main() -> None:
     events.to_csv(TABLES_DIR / "taipei_business_events_latest_month_all_city.csv", index=False)
     joined.drop(columns="geometry").to_csv(TABLES_DIR / "station_business_events_latest_month.csv", index=False)
     summary.to_csv(TABLES_DIR / "station_business_open_close_latest_month_summary.csv", index=False)
+    status = pd.DataFrame(
+        [
+            {
+                "metric": "station_level_geocoded_business_events",
+                "value": ", ".join(sorted(summary["event_month"].dropna().astype(str).unique())),
+                "status": "verified station-level latest monthly data",
+            },
+            {
+                "metric": "station_level_2022_present_history",
+                "value": "not available from the current Taipei City geocoded monthly resources",
+                "status": "missing archive or historical geocoded panel",
+            },
+            {
+                "metric": "source",
+                "value": "Taipei City geocoded business establishment and closure records",
+                "status": "official source",
+            },
+        ]
+    )
+    status.to_csv(TABLES_DIR / "station_business_open_close_data_status.csv", index=False)
     save_chart(summary)
 
     print(summary.to_string(index=False))

@@ -1,6 +1,6 @@
 # Taipei MRT Retail Dynamics
 
-This repository is the final GitHub-facing version of the Taipei MRT retail dynamics project. The analysis compares three MRT station areas using 500 m catchments:
+This repository is the final GitHub-facing version of the Taipei MRT retail dynamics project. The analysis focuses on business openings and closures around three MRT station areas using 500 m catchments:
 
 - Gongguan: student food node
 - Zhongxiao Fuxing: transfer and premium retail node
@@ -8,7 +8,7 @@ This repository is the final GitHub-facing version of the Taipei MRT retail dyna
 
 ## Front-Page Visual
 
-The main GitHub visual is a smooth looping animation focused only on the three MRT stations:
+The main GitHub visual is a smooth looping animation focused on station-level business activity around the three MRT stations:
 
 ![Animated station-by-station MRT retail dynamics loop](outputs/charts/mrt_station_retail_dynamics_loop.gif)
 
@@ -28,6 +28,8 @@ It shows each station's:
 | Gongguan | 732 | 324,978 | +2 openings / -1 closure |
 | Zhongxiao Fuxing | 561 | 479,242 | +3 openings / -2 closures |
 | Zhongshan | 867 | 551,338 | +12 openings / -11 closures |
+
+Zhongshan has the highest latest-month opening/closure volume among the three catchments. Gongguan and Zhongxiao Fuxing have lower latest-month turnover counts but still show both openings and closures inside the 500 m station areas.
 
 ## Important Method Note
 

@@ -1,0 +1,4 @@
+metric,value,status
+station_level_geocoded_business_events,2026-04,verified station-level latest monthly data
+station_level_2022_present_history,not available from the current Taipei City geocoded monthly resources,missing archive or historical geocoded panel
+source,Taipei City geocoded business establishment and closure records,official source
