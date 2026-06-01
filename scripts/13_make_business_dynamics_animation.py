@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from matplotlib.animation import FuncAnimation, PillowWriter
 from matplotlib.patches import FancyBboxPatch
+from PIL import Image, ImageSequence
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -168,11 +169,26 @@ def save_animation() -> None:
     ]
 
     frames = years + [years[-1]] * 8
+    gif_path = CHARTS_DIR / "business_open_close_animated_dashboard.gif"
     animation = FuncAnimation(fig, draw_frame, frames=frames, fargs=(fig, axes, yearly, totals, all_totals), interval=850)
-    animation.save(CHARTS_DIR / "business_open_close_animated_dashboard.gif", writer=PillowWriter(fps=1.2), dpi=130)
+    animation.save(gif_path, writer=PillowWriter(fps=1.2), dpi=130)
+    force_infinite_gif_loop(gif_path)
     draw_frame(years[-1], fig, axes, yearly, totals, all_totals)
     fig.savefig(CHARTS_DIR / "business_open_close_dashboard.png", dpi=180, bbox_inches="tight")
     plt.close(fig)
+
+
+def force_infinite_gif_loop(gif_path: Path) -> None:
+    with Image.open(gif_path) as image:
+        frames = [frame.copy() for frame in ImageSequence.Iterator(image)]
+    frames[0].save(
+        gif_path,
+        save_all=True,
+        append_images=frames[1:],
+        duration=830,
+        loop=0,
+        disposal=2,
+    )
 
 
 if __name__ == "__main__":
