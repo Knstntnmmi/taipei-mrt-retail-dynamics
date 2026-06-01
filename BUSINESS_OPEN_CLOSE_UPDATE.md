@@ -1,7 +1,3 @@
-# Business Opening and Closing Dynamics Update
-
-This update adds the professor-requested opening/closing component to the Taipei MRT retail dynamics project.
-
 ## What changed
 
 The project now includes official business-registration opening and closing metrics from 2022 through the latest available official update. These metrics are kept separate from the station-buffer OpenStreetMap POI counts because the official business-registration data is not geocoded to the 500 m MRT station catchments in this version.
