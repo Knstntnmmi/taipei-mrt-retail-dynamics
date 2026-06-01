@@ -87,7 +87,7 @@ taipei-mrt-retail-dynamics/
 | EPSG:3826 projection | Verified method | Creates metric buffers in Taiwan TWD97 / TM2 zone 121 |
 | OpenStreetMap points of interest | Proxy metric | Estimates commercial density and retail mix |
 | Taipei MRT station exits | Verified local source file | Creates exit-based catchment sensitivity check |
-| Taipei Metro OD passenger flow | Verified local source file | Adds station-level passenger-flow comparison |
+| Taipei Metro passenger flow | Verified local source file | Adds station-level entries-plus-exits comparison |
 | Business opening/closure data | Verified official data | Adds 2022-present opening/closing percentages by business category |
 | Business turnover / revenue data | Not included | Requires separate official source and transparent spatial matching |
 | Demographic, land-use, bus-stop, building-footprint data | Placeholder only | Future extension layers |
@@ -117,7 +117,7 @@ taipei-mrt-retail-dynamics/
 10. Add verified MRT passenger-flow totals.
 11. Add official business opening/closing dynamics:
    - Taipei city-level annual industry openings/closures, 2022-2025
-   - GCIS monthly industry openings/closures, 2022-01 through latest available month
+   - Ministry of Economic Affairs company-registration monthly industry openings/closures, 2022-01 through latest available month
    - category percentages for shop/retail, food/cafe, services, lifestyle/culture, education, health, and other industries
 
 The preferred method remains **buffer-first spatial joining**. All point-of-interest results should be interpreted as OpenStreetMap-based proxy indicators, not as official business counts.
@@ -161,7 +161,7 @@ The preferred method remains **buffer-first spatial joining**. All point-of-inte
 Data sources:
 
 - [Taipei City annual business registrations by industry](https://data.gov.tw/dataset/131242)
-- [Ministry of Economic Affairs / GCIS monthly business-registration data](https://data.gcis.nat.gov.tw/od/detail?oid=DB0B8C8F-9C1A-406F-8760-F7EA18942269)
+- [Ministry of Economic Affairs company-registration data portal](https://data.gcis.nat.gov.tw/od/detail?oid=DB0B8C8F-9C1A-406F-8760-F7EA18942269)
 
 ## Key results
 
@@ -244,7 +244,7 @@ The Taipei annual industry data shows that shop/retail and food/cafe dominate bo
 
 Latest monthly industry update:
 
-- GCIS monthly industry data currently covers 2022-01 through 2026-04.
+- Ministry of Economic Affairs company-registration monthly industry data currently covers 2022-01 through 2026-04.
 - This monthly dataset is national-level by industry, so it is used only to extend the opening/closing trend through the latest available month.
 - The Taipei-specific annual dataset remains the local city-level source.
 
@@ -328,7 +328,7 @@ The OpenStreetMap scripts require internet access because they query OpenStreetM
 - [Manual OpenStreetMap validation sample](outputs/tables/manual_osm_category_validation_sample.csv)
 - [Taipei business opening/closing category totals](outputs/tables/taipei_business_open_close_category_totals_2022_2025.csv)
 - [Taipei business opening/closing percentages by category and year](outputs/tables/taipei_business_open_close_percentages_by_category_2022_2025.csv)
-- [GCIS monthly business opening/closing data through latest available month](outputs/tables/gcis_business_open_close_by_industry_monthly_2022_present.csv)
+- [Ministry of Economic Affairs monthly business opening/closing data through latest available month](outputs/tables/gcis_business_open_close_by_industry_monthly_2022_present.csv)
 - [Business opening/closing data status](outputs/tables/business_open_close_data_status.csv)
 
 ### Animated and static visuals
