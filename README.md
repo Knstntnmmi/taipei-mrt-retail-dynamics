@@ -8,24 +8,23 @@ This repository contains a reproducible Python data science project that compare
 - **Zhongxiao Fuxing**: high-intensity transfer and premium retail node
 - **Zhongshan**: shopping, culture, tourism, and lifestyle node
 
-The project creates station buffers, collects OpenStreetMap POIs, classifies retail categories, compares station-area commercial mix, adds station-exit and walk-network sensitivity checks, and incorporates verified MRT passenger-flow data.
+The project creates station buffers, collects OpenStreetMap points of interest, classifies retail categories, compares station-area commercial mix, adds station-exit and walk-network sensitivity checks, and incorporates verified MRT passenger-flow data.
 
-## Front-page finding: business churn, 2022-present
+## Front-page finding: three MRT station retail profiles
 
-The professor's requested opening/closing component is included as a visible front-page result. The station-area maps show the current retail landscape, while official business-registration data shows how active Taipei's retail economy is over time.
+The main GitHub visual is now focused only on the three MRT stations in the project. It loops through Gongguan, Zhongxiao Fuxing, and Zhongshan, showing each station's 500 m catchment map, retail category mix, current mapped places, and March 2026 Taipei Metro passenger flow.
 
-![Animated dashboard of Taipei business openings and closures](outputs/charts/business_open_close_animated_dashboard.gif)
+![Animated station-by-station MRT retail dynamics loop](outputs/charts/mrt_station_retail_dynamics_loop.gif)
 
-Key verified figures from Taipei city-level annual business-registration data, 2022-2025:
+Station comparison:
 
-| Category | Openings | Closures | Opening share | Closure share | Closure rate of events |
-|---|---:|---:|---:|---:|---:|
-| Shop/retail | 9,107 | 8,793 | 46.34% | 49.98% | 49.12% |
-| Food/cafe | 4,106 | 3,708 | 20.89% | 21.08% | 47.45% |
-| Services | 1,960 | 1,492 | 9.97% | 8.48% | 43.22% |
-| Lifestyle/culture | 1,427 | 1,007 | 7.26% | 5.72% | 41.37% |
+| Station | Framing | Current mapped places | March 2026 station flow | Largest mapped category |
+|---|---|---:|---:|---|
+| Gongguan | Student food node | 732 | 324,978 | Food |
+| Zhongxiao Fuxing | Transfer and premium retail node | 561 | 479,242 | Food |
+| Zhongshan | Shopping, culture, and tourism node | 867 | 551,338 | Food |
 
-Shop/retail plus food/cafe account for **67.23% of openings** and **71.06% of closures** in the Taipei city-level data. This is treated as a verified city-level turnover metric, not as station-buffer evidence, because the official opening/closure records used here are not geocoded to the 500 m MRT catchments.
+The business opening/closure dataset is still included in the repository, but it is not used as the front-page animation because the available official records are not geocoded to the three 500 m MRT station catchments. It is kept as a separate context and limitation section.
 
 ## Product / VC-style angle
 
@@ -33,10 +32,10 @@ This can also be read as a small **urban retail intelligence** prototype. A futu
 
 - Which station catchments have the densest visible retail activity?
 - Which categories dominate each station area?
-- Where do passenger flow and observed POI density disagree?
-- Which retail categories show the strongest opening/closing pressure over time?
+- Where do passenger flow and observed point-of-interest density disagree?
+- What extra station-geocoded business opening/closure data would be needed for a stronger retail-risk model?
 
-The current repository is not a commercial forecasting model yet. It is a reproducible proof of concept that combines spatial catchments, OSM POIs, MRT passenger flow, and official business-registration churn into one workflow.
+The current repository is not a commercial forecasting model yet. It is a reproducible proof of concept that combines spatial catchments, OpenStreetMap points of interest, and MRT passenger flow into one station-comparison workflow.
 
 ## Research question
 
@@ -70,7 +69,7 @@ taipei-mrt-retail-dynamics/
 │   ├── 10_compare_catchment_methods.py
 │   ├── 11_generate_innofest_poster.py
 │   ├── 12_collect_business_open_close.py
-│   └── 13_make_business_dynamics_animation.py
+│   └── 14_make_station_frontpage_animation.py
 ├── reports/
 │   └── taipei_mrt_retail_dynamics_report.md
 └── outputs/
@@ -86,7 +85,7 @@ taipei-mrt-retail-dynamics/
 |---|---:|---|
 | Station center coordinates | Verified project input | Creates baseline station points and 500 m circular buffers |
 | EPSG:3826 projection | Verified method | Creates metric buffers in Taiwan TWD97 / TM2 zone 121 |
-| OpenStreetMap POIs | Proxy metric | Estimates commercial density and retail mix |
+| OpenStreetMap points of interest | Proxy metric | Estimates commercial density and retail mix |
 | Taipei MRT station exits | Verified local source file | Creates exit-based catchment sensitivity check |
 | Taipei Metro OD passenger flow | Verified local source file | Adds station-level passenger-flow comparison |
 | Business opening/closure data | Verified official data | Adds 2022-present opening/closing percentages by business category |
@@ -99,8 +98,8 @@ taipei-mrt-retail-dynamics/
 2. Reproject station points from EPSG:4326 to EPSG:3826.
 3. Create 500 m circular buffers.
 4. Export combined and station-specific GeoJSON files.
-5. Collect OpenStreetMap POIs within each catchment.
-6. Classify POIs into retail categories:
+5. Collect OpenStreetMap points of interest within each catchment.
+6. Classify points of interest into retail categories:
    - food
    - cafe
    - convenience
@@ -113,7 +112,7 @@ taipei-mrt-retail-dynamics/
 7. Generate retail count and category-share comparison tables.
 8. Generate charts and maps.
 9. Add sensitivity checks using:
-   - OSM walk-network catchments
+   - OpenStreetMap walk-network catchments
    - official station-exit-based buffers
 10. Add verified MRT passenger-flow totals.
 11. Add official business opening/closing dynamics:
@@ -121,7 +120,7 @@ taipei-mrt-retail-dynamics/
    - GCIS monthly industry openings/closures, 2022-01 through latest available month
    - category percentages for shop/retail, food/cafe, services, lifestyle/culture, education, health, and other industries
 
-The preferred method remains **buffer-first spatial joining**. All POI results should be interpreted as OSM-based proxy indicators, not as official business counts.
+The preferred method remains **buffer-first spatial joining**. All point-of-interest results should be interpreted as OpenStreetMap-based proxy indicators, not as official business counts.
 
 ## Main maps and charts
 
@@ -131,9 +130,15 @@ The preferred method remains **buffer-first spatial joining**. All POI results s
 
 ![NCCU Innofest A1 poster preview](outputs/poster/nccu_innofest_taipei_mrt_retail_dynamics_a1_poster_preview.png)
 
-### Combined POI map
+### Front-page station animation
 
-![Combined POI map](outputs/maps/combined_poi_map.png)
+![Animated station-by-station MRT retail dynamics loop](outputs/charts/mrt_station_retail_dynamics_loop.gif)
+
+![Static station front-page dashboard](outputs/charts/mrt_station_retail_dynamics_frontpage.png)
+
+### Combined point-of-interest map
+
+![Combined point-of-interest map](outputs/maps/combined_poi_map.png)
 
 ### Catchment method comparison
 
@@ -149,8 +154,6 @@ The preferred method remains **buffer-first spatial joining**. All POI results s
 
 ### Official business opening/closing dynamics
 
-![Static dashboard of Taipei business openings and closures](outputs/charts/business_open_close_dashboard.png)
-
 ![Taipei business openings and closures by category](outputs/charts/taipei_business_open_close_by_category_2022_2025.png)
 
 ![Business opening and closing percentage shares](outputs/charts/business_open_close_percentage_shares_2022_present.png)
@@ -162,15 +165,15 @@ Data sources:
 
 ## Key results
 
-### Baseline 500 m circular catchment POI counts
+### Baseline 500 m circular catchment point-of-interest counts
 
-| Station | OSM POIs |
+| Station | OpenStreetMap points of interest |
 |---|---:|
 | Zhongshan | 867 |
 | Gongguan | 732 |
 | Zhongxiao Fuxing | 561 |
 
-In the baseline circular-buffer analysis, Zhongshan has the highest observed OSM POI count, followed by Gongguan and Zhongxiao Fuxing.
+In the baseline circular-buffer analysis, Zhongshan has the highest observed OpenStreetMap point-of-interest count, followed by Gongguan and Zhongxiao Fuxing.
 
 ### Retail category counts
 
@@ -180,7 +183,7 @@ In the baseline circular-buffer analysis, Zhongshan has the highest observed OSM
 | Zhongshan | 325 | 78 | 34 | 79 | 22 | 3 | 30 | 160 | 136 |
 | Zhongxiao Fuxing | 258 | 49 | 33 | 43 | 14 | 3 | 26 | 75 | 60 |
 
-Food-related POIs are the largest category in all three station areas. This supports the idea that station-adjacent retail environments in central Taipei are strongly shaped by eating, drinking, and convenience-oriented activity.
+Food-related points of interest are the largest category in all three station areas. This supports the idea that station-adjacent retail environments in central Taipei are strongly shaped by eating, drinking, and convenience-oriented activity.
 
 ### Catchment method sensitivity
 
@@ -190,11 +193,11 @@ Food-related POIs are the largest category in all three station areas. This supp
 | Exit-union 500 m | 789 | 1,076 | 641 |
 | Walk-network 500 m | 613 | 635 | 409 |
 
-The catchment definition changes the results. Exit-based buffers increase POI counts because multiple station exits expand the effective catchment footprint. Walk-network catchments reduce POI counts because they are constrained by the reachable pedestrian network rather than a full circle.
+The catchment definition changes the results. Exit-based buffers increase point-of-interest counts because multiple station exits expand the effective catchment footprint. Walk-network catchments reduce point-of-interest counts because they are constrained by the reachable pedestrian network rather than a full circle.
 
 ### Walk-network area comparison
 
-| Station | Reachable OSM nodes | Network catchment area sqm | Circular area sqm | Network area as percent of circular |
+| Station | Reachable OpenStreetMap nodes | Network catchment area sqm | Circular area sqm | Network area as percent of circular |
 |---|---:|---:|---:|---:|
 | Gongguan | 637 | 414,689 | 784,137 | 52.9 |
 | Zhongxiao Fuxing | 380 | 491,547 | 784,137 | 62.7 |
@@ -224,7 +227,7 @@ Passenger flow is a verified MRT metric, but it is still only a proxy for retail
 
 ### Official opening/closing percentages
 
-The professor's requested opening/closing component is now included as a separate verified metric. It is not mixed into the station-buffer OSM POI counts because the official business-registration data is not geocoded to the 500 m MRT catchments in this version.
+The professor's requested opening/closing component is now included as a separate verified metric. It is not mixed into the station-buffer OpenStreetMap point-of-interest counts because the official business-registration data is not geocoded to the 500 m MRT catchments in this version.
 
 Taipei city-level business-registration dynamics, 2022-2025:
 
@@ -247,22 +250,22 @@ Latest monthly industry update:
 
 ## Interpretation
 
-Zhongshan has the largest baseline OSM POI count and the highest passenger-flow total among the three stations in the current data. Its profile fits the report framing of a shopping, culture, tourism, and lifestyle-oriented node.
+Zhongshan has the largest baseline OpenStreetMap point-of-interest count and the highest passenger-flow total among the three stations in the current data. Its profile fits the report framing of a shopping, culture, tourism, and lifestyle-oriented node.
 
 Gongguan has a strong food and cafe profile and remains consistent with its student and university-oriented framing. Its passenger-flow total is lower than the other two stations, but its commercial density remains high within the baseline 500 m catchment.
 
-Zhongxiao Fuxing has lower observed OSM POI counts than the other two stations in this specific 500 m analysis, but it has high verified passenger flow. This suggests that its role as a transfer and premium retail node may not be fully captured by simple POI counts alone. Store size, department stores, underground retail, vertical malls, and higher-value commercial activity require additional datasets.
+Zhongxiao Fuxing has lower observed OpenStreetMap point-of-interest counts than the other two stations in this specific 500 m analysis, but it has high verified passenger flow. This suggests that its role as a transfer and premium retail node may not be fully captured by simple point counts alone. Store size, department stores, underground retail, vertical malls, and higher-value commercial activity require additional datasets.
 
-The official business-registration data adds a turnover-pressure context: retail and food/cafe are not only the most visible station-area categories in OSM, but also the categories with the largest shares of city-level openings and closures. This supports the broader claim that Taipei's station-area retail environments are dynamic rather than static.
+The official business-registration data adds a turnover-pressure context: retail and food/cafe are not only the most visible station-area categories in OpenStreetMap, but also the categories with the largest shares of city-level openings and closures. This supports the broader claim that Taipei's station-area retail environments are dynamic rather than static.
 
 ## Limitations
 
-- OSM POIs are not official business records.
-- OSM completeness varies by area and by tag.
+- OpenStreetMap points of interest are not official business records.
+- OpenStreetMap completeness varies by area and by tag.
 - Official business opening/closing data is currently analyzed at city/industry level, not as geocoded point records inside each MRT catchment.
 - A circular 500 m buffer does not model pedestrian barriers, exits, underground passages, or actual walking paths.
-- The walk-network catchment uses an approximate convex-hull service area from reachable OSM nodes, not a full network-service polygon.
-- POI counts do not measure sales, rent, vacancy, store size, turnover, or customer volume.
+- The walk-network catchment uses an approximate convex-hull service area from reachable OpenStreetMap nodes, not a full network-service polygon.
+- Point-of-interest counts do not measure sales, rent, vacancy, store size, turnover, or customer volume.
 - MRT passenger flow measures station entries and exits, not retail visits.
 - Business turnover/revenue data was not added because a reliable source and spatial matching workflow were not implemented.
 - Demographic, land-use, bus-stop, and building-footprint layers are placeholders for future extension.
@@ -289,12 +292,12 @@ python scripts/08_passenger_flow_metric.py
 python scripts/09_make_validation_sample.py
 python scripts/10_compare_catchment_methods.py
 python scripts/12_collect_business_open_close.py
-python scripts/13_make_business_dynamics_animation.py
+python scripts/14_make_station_frontpage_animation.py
 python scripts/04_make_maps_and_charts.py
 python scripts/05_generate_report.py
 ```
 
-The OSM scripts require internet access because they query OpenStreetMap through OSMnx.
+The OpenStreetMap scripts require internet access because they query OpenStreetMap through OSMnx, a Python package for downloading and analyzing OpenStreetMap street-network and place data.
 
 ## Important output files
 
@@ -304,7 +307,7 @@ The OSM scripts require internet access because they query OpenStreetMap through
 - [Notebook workflow](notebooks/01_mrt_retail_analysis.ipynb)
 - [NCCU Innofest A1 poster PDF](outputs/poster/nccu_innofest_taipei_mrt_retail_dynamics_a1_poster.pdf)
 - [Poster generator script](scripts/11_generate_innofest_poster.py)
-- [Business dynamics animation script](scripts/13_make_business_dynamics_animation.py)
+- [Station front-page animation script](scripts/14_make_station_frontpage_animation.py)
 
 ### Spatial outputs
 
@@ -316,27 +319,27 @@ The OSM scripts require internet access because they query OpenStreetMap through
 
 ### Tables
 
-- [Total POI count by station](outputs/tables/total_poi_count_by_station.csv)
+- [Total point-of-interest count by station](outputs/tables/total_poi_count_by_station.csv)
 - [Retail category counts](outputs/tables/retail_category_count_by_station.csv)
 - [Retail category shares](outputs/tables/retail_category_share_by_station.csv)
-- [Catchment method POI comparison](outputs/tables/catchment_method_total_poi_comparison.csv)
+- [Catchment method point-of-interest comparison](outputs/tables/catchment_method_total_poi_comparison.csv)
 - [Catchment method category comparison](outputs/tables/catchment_method_category_comparison.csv)
 - [Passenger flow by station](outputs/tables/mrt_passenger_flow_by_station.csv)
-- [Manual OSM validation sample](outputs/tables/manual_osm_category_validation_sample.csv)
+- [Manual OpenStreetMap validation sample](outputs/tables/manual_osm_category_validation_sample.csv)
 - [Taipei business opening/closing category totals](outputs/tables/taipei_business_open_close_category_totals_2022_2025.csv)
 - [Taipei business opening/closing percentages by category and year](outputs/tables/taipei_business_open_close_percentages_by_category_2022_2025.csv)
 - [GCIS monthly business opening/closing data through latest available month](outputs/tables/gcis_business_open_close_by_industry_monthly_2022_present.csv)
 - [Business opening/closing data status](outputs/tables/business_open_close_data_status.csv)
 
-### Animated and static business dynamics visuals
+### Animated and static visuals
 
-- [Animated business opening/closing dashboard](outputs/charts/business_open_close_animated_dashboard.gif)
-- [Static business opening/closing dashboard](outputs/charts/business_open_close_dashboard.png)
+- [Animated station-by-station front-page loop](outputs/charts/mrt_station_retail_dynamics_loop.gif)
+- [Static station front-page dashboard](outputs/charts/mrt_station_retail_dynamics_frontpage.png)
 
 ## Next improvements
 
 1. Replace the convex-hull walk-network catchments with more precise network-service polygons.
 2. Geocode official opening/closure business records if address-level records with usable industry labels become available.
-3. Manually validate the OSM category sample and refine the classification rules.
+3. Manually validate the OpenStreetMap category sample and refine the classification rules.
 4. Add village-level demographics, land-use polygons, bus stops, and building footprints.
-5. Compare POI density, passenger flow, and opening/closing rates across more MRT stations.
+5. Compare point-of-interest density, passenger flow, and opening/closing rates across more MRT stations.
