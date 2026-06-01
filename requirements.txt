@@ -1,6 +1,7 @@
 geopandas>=0.14
 pandas>=2.0
 matplotlib>=3.7
+pillow>=10.0
 shapely>=2.0
 pyproj>=3.6
 osmnx>=1.9

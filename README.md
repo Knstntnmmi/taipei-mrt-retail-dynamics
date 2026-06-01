@@ -10,6 +10,34 @@ This repository contains a reproducible Python data science project that compare
 
 The project creates station buffers, collects OpenStreetMap POIs, classifies retail categories, compares station-area commercial mix, adds station-exit and walk-network sensitivity checks, and incorporates verified MRT passenger-flow data.
 
+## Front-page finding: business churn, 2022-present
+
+The professor's requested opening/closing component is included as a visible front-page result. The station-area maps show the current retail landscape, while official business-registration data shows how active Taipei's retail economy is over time.
+
+![Animated dashboard of Taipei business openings and closures](outputs/charts/business_open_close_animated_dashboard.gif)
+
+Key verified figures from Taipei city-level annual business-registration data, 2022-2025:
+
+| Category | Openings | Closures | Opening share | Closure share | Closure rate of events |
+|---|---:|---:|---:|---:|---:|
+| Shop/retail | 9,107 | 8,793 | 46.34% | 49.98% | 49.12% |
+| Food/cafe | 4,106 | 3,708 | 20.89% | 21.08% | 47.45% |
+| Services | 1,960 | 1,492 | 9.97% | 8.48% | 43.22% |
+| Lifestyle/culture | 1,427 | 1,007 | 7.26% | 5.72% | 41.37% |
+
+Shop/retail plus food/cafe account for **67.23% of openings** and **71.06% of closures** in the Taipei city-level data. This is treated as a verified city-level turnover metric, not as station-buffer evidence, because the official opening/closure records used here are not geocoded to the 500 m MRT catchments.
+
+## Product / VC-style angle
+
+This can also be read as a small **urban retail intelligence** prototype. A future product version could help retailers, landlords, transit authorities, or investors compare MRT station areas for site selection and retail risk:
+
+- Which station catchments have the densest visible retail activity?
+- Which categories dominate each station area?
+- Where do passenger flow and observed POI density disagree?
+- Which retail categories show the strongest opening/closing pressure over time?
+
+The current repository is not a commercial forecasting model yet. It is a reproducible proof of concept that combines spatial catchments, OSM POIs, MRT passenger flow, and official business-registration churn into one workflow.
+
 ## Research question
 
 How do retail density, retail mix, catchment definition, and MRT passenger flow differ across three Taipei MRT station areas?
@@ -39,7 +67,10 @@ taipei-mrt-retail-dynamics/
 │   ├── 07_add_station_exits.py
 │   ├── 08_passenger_flow_metric.py
 │   ├── 09_make_validation_sample.py
-│   └── 10_compare_catchment_methods.py
+│   ├── 10_compare_catchment_methods.py
+│   ├── 11_generate_innofest_poster.py
+│   ├── 12_collect_business_open_close.py
+│   └── 13_make_business_dynamics_animation.py
 ├── reports/
 │   └── taipei_mrt_retail_dynamics_report.md
 └── outputs/
@@ -116,24 +147,18 @@ The preferred method remains **buffer-first spatial joining**. All POI results s
 
 ![MRT passenger flow chart](outputs/charts/mrt_passenger_flow_by_station.png)
 
-## 🎢 Taipei Business Dynamics (The Fun Part!)
-
-*Because cities never sleep! Watch how fast businesses open and close in Taipei across key categories:*
-
-![Taipei Business Dynamics Animation](business_dynamics.gif)
-
-### Text Statistics & Data Sources
-Shop/retail and food/cafe dominate both openings and closures in Taipei's official city-level business-registration data. Together, they account for **67.23% of openings** and **71.06% of closures** from 2022-2025. 
-
-**Data Sources:**
-- [Taipei City annual business registrations by industry](https://data.gov.tw/dataset/131242)
-- [Ministry of Economic Affairs / GCIS monthly business-registration data](https://data.gcis.nat.gov.tw/od/detail?oid=DB0B8C8F-9C1A-406F-8760-F7EA18942269)
-
 ### Official business opening/closing dynamics
+
+![Static dashboard of Taipei business openings and closures](outputs/charts/business_open_close_dashboard.png)
 
 ![Taipei business openings and closures by category](outputs/charts/taipei_business_open_close_by_category_2022_2025.png)
 
 ![Business opening and closing percentage shares](outputs/charts/business_open_close_percentage_shares_2022_present.png)
+
+Data sources:
+
+- [Taipei City annual business registrations by industry](https://data.gov.tw/dataset/131242)
+- [Ministry of Economic Affairs / GCIS monthly business-registration data](https://data.gcis.nat.gov.tw/od/detail?oid=DB0B8C8F-9C1A-406F-8760-F7EA18942269)
 
 ## Key results
 
@@ -264,6 +289,7 @@ python scripts/08_passenger_flow_metric.py
 python scripts/09_make_validation_sample.py
 python scripts/10_compare_catchment_methods.py
 python scripts/12_collect_business_open_close.py
+python scripts/13_make_business_dynamics_animation.py
 python scripts/04_make_maps_and_charts.py
 python scripts/05_generate_report.py
 ```
@@ -278,6 +304,7 @@ The OSM scripts require internet access because they query OpenStreetMap through
 - [Notebook workflow](notebooks/01_mrt_retail_analysis.ipynb)
 - [NCCU Innofest A1 poster PDF](outputs/poster/nccu_innofest_taipei_mrt_retail_dynamics_a1_poster.pdf)
 - [Poster generator script](scripts/11_generate_innofest_poster.py)
+- [Business dynamics animation script](scripts/13_make_business_dynamics_animation.py)
 
 ### Spatial outputs
 
@@ -300,6 +327,11 @@ The OSM scripts require internet access because they query OpenStreetMap through
 - [Taipei business opening/closing percentages by category and year](outputs/tables/taipei_business_open_close_percentages_by_category_2022_2025.csv)
 - [GCIS monthly business opening/closing data through latest available month](outputs/tables/gcis_business_open_close_by_industry_monthly_2022_present.csv)
 - [Business opening/closing data status](outputs/tables/business_open_close_data_status.csv)
+
+### Animated and static business dynamics visuals
+
+- [Animated business opening/closing dashboard](outputs/charts/business_open_close_animated_dashboard.gif)
+- [Static business opening/closing dashboard](outputs/charts/business_open_close_dashboard.png)
 
 ## Next improvements
 
