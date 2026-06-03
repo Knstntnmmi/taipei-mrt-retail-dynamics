@@ -10,6 +10,13 @@ This repository contains a reproducible Python data science project that compare
 
 The core question is whether the three station areas show different levels of commercial turnover and retail intensity. The project uses official geocoded Taipei City business opening/closure records where station-level evidence is available, then supports the interpretation with OpenStreetMap retail places, Taipei Metro passenger flow, station-exit catchments, and walk-network sensitivity checks.
 
+## At a glance
+
+- **Strongest latest-month turnover:** Zhongshan, with 23 business events (12 openings, 11 closures) inside its 500 m catchment in April 2026, against 5 at Zhongxiao Fuxing and 3 at Gongguan.
+- **Size-adjusted, Zhongshan still leads:** 2.65 events per 100 mapped places, versus 0.89 at Zhongxiao Fuxing and 0.41 at Gongguan.
+- **Flow does not match footprint:** Zhongxiao Fuxing has the highest passenger flow per mapped place (854), a sign that its vertical malls and underground retail are undercounted by point-of-interest data.
+- **Evidence boundary:** station-level opening/closure proof covers the latest geocoded month only. The 2022-present series is city/national context, OpenStreetMap counts are a proxy, and the events are official business-registration records rather than a street-retail-only census.
+
 ## Start here: station-level openings and closures
 
 The main GitHub visual is a looping front-page dashboard focused on business openings and closures around the three MRT stations. It cycles through Gongguan, Zhongxiao Fuxing, and Zhongshan, with the verified latest-month opening/closure counts shown first and the 500 m catchment map, mapped retail categories, passenger flow, and three-station ranking shown as supporting context.
@@ -253,6 +260,8 @@ Food-related points of interest are the largest category in all three station ar
 
 The catchment definition changes the results. Exit-based buffers increase point-of-interest counts because multiple station exits expand the effective catchment footprint. Walk-network catchments reduce point-of-interest counts because they are constrained by the reachable pedestrian network rather than a full circle.
 
+The circular-center counts here (733 / 869) differ by one to two places from the baseline counts above (732 / 867) because the retail-mix and catchment-comparison steps query OpenStreetMap in separate passes, and OpenStreetMap is a live database. These small gaps are expected for proxy point-of-interest data and do not affect the station ranking.
+
 ### Walk-network area comparison
 
 | Station | Reachable OpenStreetMap nodes | Network catchment area sqm | Circular area sqm | Network area as percent of circular |
@@ -323,6 +332,7 @@ The official business-registration data adds a turnover-pressure context: retail
 - OpenStreetMap points of interest are not official business records.
 - OpenStreetMap completeness varies by area and by tag.
 - Latest Taipei City business opening/closure records are geocoded and joined to the three station catchments, but only for the latest available monthly files.
+- These records are official business-registration events (establishments and closures). Many are small or upper-floor registrations such as studios, workshops, and sole-proprietor trading firms, so the counts measure registered business turnover, not street-level storefront retail alone.
 - The full 2022-present opening/closure history is currently analyzed at city/industry level, not as geocoded point records inside each MRT catchment.
 - A circular 500 m buffer does not model pedestrian barriers, exits, underground passages, or actual walking paths.
 - The walk-network catchment uses an approximate convex-hull service area from reachable OpenStreetMap nodes, not a full network-service polygon.
