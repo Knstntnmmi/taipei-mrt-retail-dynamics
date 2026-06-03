@@ -242,9 +242,7 @@ def draw_station_comparison(ax, categories: pd.DataFrame, station_id: str) -> No
     ax.axis("off")
     rounded_panel(ax)
     ax.text(0.055, 0.91, "Three-station turnover ranking", transform=ax.transAxes, fontsize=15, weight="bold", color=TEXT)
-    ax.text(0.055, 0.845, "Latest official station-level events", transform=ax.transAxes, fontsize=10, color=MUTED)
-    max_poi = categories["total_osm_pois"].max()
-    max_flow = categories["total_station_flow"].max()
+    ax.text(0.055, 0.845, "Bar length = total openings + closures (latest month)", transform=ax.transAxes, fontsize=9.2, color=MUTED)
     max_events = max(categories["total_events"].max(), 1)
     labels = {
         "gongguan": "Gongguan",
@@ -281,28 +279,24 @@ def draw_station_comparison(ax, categories: pd.DataFrame, station_id: str) -> No
                 transform=ax.transAxes,
             )
         )
-        ax.text(0.055, y - 0.045, f"{int(row['total_osm_pois']):,} mapped places", transform=ax.transAxes, fontsize=9.1, color=MUTED)
-        ax.add_patch(
-            FancyBboxPatch(
-                (0.43, y - 0.025),
-                0.48,
-                0.035,
-                boxstyle="round,pad=0,rounding_size=0.01",
-                linewidth=0,
-                facecolor="#263229",
-                transform=ax.transAxes,
-            )
+        ax.text(
+            0.915,
+            y + 0.0875,
+            f"{int(row['total_events'])}",
+            transform=ax.transAxes,
+            fontsize=10,
+            weight="bold",
+            ha="left",
+            va="center",
+            color=text_color,
         )
-        ax.add_patch(
-            FancyBboxPatch(
-                (0.43, y - 0.025),
-                0.48 * row["total_station_flow"] / max_flow,
-                0.035,
-                boxstyle="round,pad=0,rounding_size=0.01",
-                linewidth=0,
-                facecolor=color,
-                transform=ax.transAxes,
-            )
+        ax.text(
+            0.055,
+            y - 0.04,
+            f"{int(row['total_osm_pois']):,} mapped places  ·  {int(row['total_station_flow']):,} flow",
+            transform=ax.transAxes,
+            fontsize=9.1,
+            color=MUTED,
         )
 
 
