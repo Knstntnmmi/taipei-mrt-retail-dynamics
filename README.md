@@ -34,6 +34,19 @@ Supporting station context:
 | Zhongxiao Fuxing | 561 | 479,242 | Food |
 | Zhongshan | 867 | 551,338 | Food |
 
+## Data-science argument
+
+The project is organized around a claim-evidence-limitation structure:
+
+| Claim | Evidence used | Interpretation boundary |
+|---|---|---|
+| Zhongshan has the strongest latest-month turnover signal among the three stations. | Official Taipei City geocoded April 2026 opening and closure records inside the 500 m buffer. | This is station-level, but only for the latest available geocoded month. |
+| Gongguan is a student-oriented food and everyday-service node. | OpenStreetMap retail mix, station framing, and 500 m catchment maps. | OpenStreetMap is a visibility proxy, not an official business census. |
+| Zhongxiao Fuxing is likely undercounted by simple point-of-interest totals. | High verified MRT passenger flow plus known transfer/premium-retail framing. | Vertical malls, underground retail, and store size need additional datasets. |
+| The method is reproducible and falsifiable. | Scripts rebuild buffers, joins, maps, charts, tables, and report outputs. | Stronger conclusions require a full 2022-present station-geocoded business-event panel. |
+
+This is why the analysis does not claim that city-level 2022-present opening/closure percentages prove station-level change. Those longer historical percentages are treated as official city-level context, while the April 2026 geocoded opening/closure records are treated as station-level evidence.
+
 ## Product / VC-style angle
 
 This can also be read as a small **urban retail intelligence** prototype. A future product version could help retailers, landlords, transit authorities, or investors compare MRT station areas for site selection and retail risk:

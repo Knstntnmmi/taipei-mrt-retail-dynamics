@@ -21,15 +21,15 @@ STATION_FRAMING = {
         "note": "Dense food, cafe, health, and everyday-service activity around a university-oriented station area.",
         "short_note": "University-oriented food and everyday-service catchment.",
         "map": MAPS_DIR / "gongguan_poster_map.png",
-        "color": "#2F7D88",
+        "color": "#76B900",
     },
     "zhongxiao_fuxing": {
         "title": "Zhongxiao Fuxing",
         "subtitle": "Transfer and premium retail node",
         "note": "High passenger flow, but simple point counts understate vertical malls, department stores, and underground retail.",
-        "short_note": "High-flow transfer area; vertical malls may be undercounted.",
+        "short_note": "Vertical malls may be undercounted.",
         "map": MAPS_DIR / "zhongxiao_fuxing_poster_map.png",
-        "color": "#8C5A2B",
+        "color": "#A3FF12",
     },
     "zhongshan": {
         "title": "Zhongshan",
@@ -37,7 +37,7 @@ STATION_FRAMING = {
         "note": "Largest observed point-of-interest count and highest verified passenger flow among the three stations.",
         "short_note": "Highest latest-month turnover and mapped retail volume.",
         "map": MAPS_DIR / "zhongshan_poster_map.png",
-        "color": "#6A6FA8",
+        "color": "#5EC64D",
     },
 }
 
@@ -58,24 +58,25 @@ CATEGORY_SHORT_LABELS = {
     "lifestyle/design": "Design",
 }
 CATEGORY_COLORS = {
-    "food": "#E76F51",
-    "cafe": "#F4A261",
-    "convenience": "#2A9D8F",
-    "apparel/fashion": "#6A6FA8",
-    "lifestyle/design": "#C65FA7",
-    "education": "#E9C46A",
-    "health": "#4F9D69",
-    "services": "#457B9D",
-    "other": "#8D99AE",
+    "food": "#76B900",
+    "cafe": "#A3FF12",
+    "convenience": "#35D07F",
+    "apparel/fashion": "#C7F464",
+    "lifestyle/design": "#86C232",
+    "education": "#D7FF66",
+    "health": "#52B788",
+    "services": "#4D908E",
+    "other": "#8FA198",
 }
 
-TEXT = "#1B2A2F"
-MUTED = "#65777E"
-BG = "#F6FAF9"
-CARD = "white"
-GREEN = "#2E9D68"
-RED = "#D86135"
-LINE = "#DCE7E3"
+TEXT = "#F1F7F0"
+MUTED = "#AAB8AE"
+BG = "#050806"
+CARD = "#111713"
+CARD_ALT = "#172119"
+GREEN = "#76B900"
+RED = "#F05A28"
+LINE = "#2D3A31"
 
 
 def load_inputs() -> pd.DataFrame:
@@ -197,12 +198,12 @@ def draw_turnover_panel(ax, station: pd.Series, color: str) -> None:
         color=TEXT,
     )
     ax.text(0.055, 0.34, "Open", transform=ax.transAxes, fontsize=10.5, color=MUTED)
-    ax.add_patch(FancyBboxPatch((0.19, 0.347), 0.67, 0.052, boxstyle="round,pad=0,rounding_size=0.014", linewidth=0, facecolor="#E4EEE9", transform=ax.transAxes))
+    ax.add_patch(FancyBboxPatch((0.19, 0.347), 0.67, 0.052, boxstyle="round,pad=0,rounding_size=0.014", linewidth=0, facecolor="#243024", transform=ax.transAxes))
     ax.add_patch(FancyBboxPatch((0.19, 0.347), 0.67 * openings / max_events, 0.052, boxstyle="round,pad=0,rounding_size=0.014", linewidth=0, facecolor=GREEN, transform=ax.transAxes))
     ax.text(0.89, 0.34, f"{openings}", transform=ax.transAxes, fontsize=11, weight="bold", color=TEXT)
 
     ax.text(0.055, 0.25, "Close", transform=ax.transAxes, fontsize=10.5, color=MUTED)
-    ax.add_patch(FancyBboxPatch((0.19, 0.257), 0.67, 0.052, boxstyle="round,pad=0,rounding_size=0.014", linewidth=0, facecolor="#F3E2DD", transform=ax.transAxes))
+    ax.add_patch(FancyBboxPatch((0.19, 0.257), 0.67, 0.052, boxstyle="round,pad=0,rounding_size=0.014", linewidth=0, facecolor="#3A211C", transform=ax.transAxes))
     ax.add_patch(FancyBboxPatch((0.19, 0.257), 0.67 * closures / max_events, 0.052, boxstyle="round,pad=0,rounding_size=0.014", linewidth=0, facecolor=RED, transform=ax.transAxes))
     ax.text(0.89, 0.25, f"{closures}", transform=ax.transAxes, fontsize=11, weight="bold", color=TEXT)
 
@@ -227,7 +228,7 @@ def draw_station_comparison(ax, categories: pd.DataFrame, station_id: str) -> No
         row = categories[categories["station_id"] == compare_id].iloc[0]
         y = 0.68 - index * 0.24
         active = compare_id == station_id
-        color = STATION_FRAMING[compare_id]["color"] if active else "#A9B7BC"
+        color = STATION_FRAMING[compare_id]["color"] if active else "#53635A"
         text_color = TEXT if active else MUTED
         ax.text(0.055, y + 0.11, labels[compare_id], transform=ax.transAxes, fontsize=11.5, weight="bold", color=text_color)
         ax.text(0.055, y + 0.035, f"+{int(row['openings'])} open / -{int(row['closures'])} close", transform=ax.transAxes, fontsize=10.5, color=text_color)
@@ -238,7 +239,7 @@ def draw_station_comparison(ax, categories: pd.DataFrame, station_id: str) -> No
                 0.055,
                 boxstyle="round,pad=0,rounding_size=0.01",
                 linewidth=0,
-                facecolor="#DDE7E4",
+                facecolor="#263229",
                 transform=ax.transAxes,
             )
         )
@@ -261,7 +262,7 @@ def draw_station_comparison(ax, categories: pd.DataFrame, station_id: str) -> No
                 0.035,
                 boxstyle="round,pad=0,rounding_size=0.01",
                 linewidth=0,
-                facecolor="#DDE7E4",
+                facecolor="#263229",
                 transform=ax.transAxes,
             )
         )
@@ -293,6 +294,17 @@ def draw_station_frame(station_id: str, categories: pd.DataFrame) -> plt.Figure:
 
     title_ax = fig.add_subplot(grid[0, :])
     title_ax.axis("off")
+    title_ax.add_patch(
+        FancyBboxPatch(
+            (0, 0.02),
+            0.22,
+            0.065,
+            boxstyle="round,pad=0,rounding_size=0.02",
+            linewidth=0,
+            facecolor=GREEN,
+            transform=title_ax.transAxes,
+        )
+    )
     title_ax.text(
         0,
         0.72,
@@ -313,9 +325,38 @@ def draw_station_frame(station_id: str, categories: pd.DataFrame) -> plt.Figure:
 
     station_ax = fig.add_subplot(grid[1, 0:3])
     rounded_panel(station_ax)
-    station_ax.text(0.07, 0.82, meta["title"], fontsize=24, weight="bold", color=meta["color"], transform=station_ax.transAxes, va="top")
-    add_wrapped_text(station_ax, 0.07, 0.55, meta["subtitle"], width=24, fontsize=11.8, weight="bold", color=TEXT)
-    add_wrapped_text(station_ax, 0.07, 0.29, meta["short_note"], width=34, fontsize=10.2, color=MUTED)
+    title_size = 17 if len(meta["title"]) > 12 else 24
+    subtitle_y = 0.45 if len(meta["title"]) > 12 else 0.55
+    note_y = 0.22 if len(meta["title"]) > 12 else 0.29
+    add_wrapped_text(
+        station_ax,
+        0.07,
+        0.82,
+        meta["title"],
+        width=12,
+        fontsize=title_size,
+        weight="bold",
+        color=meta["color"],
+    )
+    add_wrapped_text(
+        station_ax,
+        0.07,
+        subtitle_y,
+        meta["subtitle"],
+        width=24,
+        fontsize=11.8,
+        weight="bold",
+        color=TEXT,
+    )
+    add_wrapped_text(
+        station_ax,
+        0.07,
+        note_y,
+        meta["short_note"],
+        width=34,
+        fontsize=10.2,
+        color=MUTED,
+    )
 
     draw_turnover_panel(fig.add_subplot(grid[1:3, 3:8]), station, meta["color"])
     draw_station_comparison(fig.add_subplot(grid[1:3, 8:12]), categories, station_id)
@@ -335,35 +376,39 @@ def draw_station_frame(station_id: str, categories: pd.DataFrame) -> plt.Figure:
     values = pd.Series({col: station[col] for col in category_cols}).sort_values(ascending=True).tail(6)
     bar_ax = fig.add_subplot(grid[3, 3:8])
     bar_ax.set_facecolor(CARD)
+    labels = [CATEGORY_SHORT_LABELS[col] for col in values.index]
     bar_ax.barh(
-        [CATEGORY_SHORT_LABELS[col] for col in values.index],
+        range(len(values)),
         values.values,
         color=[CATEGORY_COLORS[col] for col in values.index],
     )
     bar_ax.set_title("Top mapped retail categories", loc="left", fontsize=14.5, weight="bold", color=TEXT, pad=10)
     bar_ax.set_xlabel("OpenStreetMap mapped places", color=MUTED)
-    bar_ax.tick_params(axis="both", colors=MUTED, labelsize=9.5)
-    bar_ax.grid(axis="x", color="#DDE7E4", linewidth=0.8)
+    bar_ax.set_yticks([])
+    bar_ax.set_xticks([0, 100, 200, 300])
+    bar_ax.tick_params(axis="x", colors=MUTED, labelsize=9.5)
+    bar_ax.grid(axis="x", color="#2A382E", linewidth=0.8)
     for spine in bar_ax.spines.values():
         spine.set_visible(False)
     for y, value in enumerate(values.values):
+        bar_ax.text(-66, y, labels[y], va="center", fontsize=9.5, color=TEXT, weight="bold")
         bar_ax.text(value + 4, y, f"{int(value):,}", va="center", fontsize=9.5, color=TEXT)
-    bar_ax.set_xlim(0, max(values.max() * 1.18, 120))
+    bar_ax.set_xlim(-72, max(values.max() * 1.18, 120))
 
     evidence_ax = fig.add_subplot(grid[3, 8:12])
     rounded_panel(evidence_ax)
     evidence_ax.text(0.055, 0.79, "Evidence status", transform=evidence_ax.transAxes, fontsize=14.5, weight="bold", color=TEXT)
     evidence_ax.text(0.055, 0.59, f"{int(station['total_osm_pois']):,}", transform=evidence_ax.transAxes, fontsize=22, weight="bold", color=meta["color"])
     evidence_ax.text(0.28, 0.625, "mapped places\nproxy retail mix", transform=evidence_ax.transAxes, fontsize=10.2, color=MUTED, va="center")
-    evidence_ax.text(0.055, 0.34, f"{int(station['total_station_flow']):,}", transform=evidence_ax.transAxes, fontsize=22, weight="bold", color="#247BA0")
+    evidence_ax.text(0.055, 0.34, f"{int(station['total_station_flow']):,}", transform=evidence_ax.transAxes, fontsize=22, weight="bold", color="#A3FF12")
     evidence_ax.text(0.42, 0.375, "March 2026 station flow\nverified Taipei Metro metric", transform=evidence_ax.transAxes, fontsize=10.2, color=MUTED, va="center")
     add_wrapped_text(
         evidence_ax,
         0.055,
-        0.085,
-        "2022-present opening/closure history remains city-level context until a full station-geocoded panel is available.",
-        width=58,
-        fontsize=9.4,
+        0.17,
+        "2022-present data: city-level context only.",
+        width=44,
+        fontsize=9.2,
         color=MUTED,
     )
 
@@ -395,13 +440,13 @@ def save_outputs() -> None:
         fig.savefig(frame_path, dpi=100, facecolor=BG)
         plt.close(fig)
         frame = Image.open(frame_path).convert("RGB")
-        frame.thumbnail((1200, 675), Image.Resampling.LANCZOS)
+        frame.thumbnail((1050, 591), Image.Resampling.LANCZOS)
         frames.append(frame.copy())
         frame_path.unlink()
 
     smooth_frames = []
-    hold_frames = 8
-    transition_frames = 8
+    hold_frames = 7
+    transition_frames = 5
     for index, frame in enumerate(frames):
         next_frame = frames[(index + 1) % len(frames)]
         smooth_frames.extend([frame.copy() for _ in range(hold_frames)])
@@ -409,7 +454,7 @@ def save_outputs() -> None:
             amount = step / (transition_frames + 1)
             smooth_frames.append(Image.blend(frame, next_frame, amount))
 
-    palette_frames = [frame.convert("P", palette=Image.Palette.ADAPTIVE) for frame in smooth_frames]
+    palette_frames = [frame.quantize(colors=96) for frame in smooth_frames]
     gif_path = CHARTS_DIR / "mrt_station_retail_dynamics_loop.gif"
     palette_frames[0].save(
         gif_path,

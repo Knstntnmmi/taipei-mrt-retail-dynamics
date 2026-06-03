@@ -31,6 +31,16 @@ It shows each station's:
 
 Zhongshan has the highest latest-month opening/closure volume among the three catchments. Gongguan and Zhongxiao Fuxing have lower latest-month turnover counts but still show both openings and closures inside the 500 m station areas.
 
+## Data-Science Argument
+
+The project is framed as a reproducible claim-evidence-limitation analysis:
+
+- Claim: Zhongshan shows the strongest latest-month business-turnover signal.
+- Evidence: official Taipei City geocoded April 2026 opening and closure records inside each 500 m station catchment.
+- Context: OpenStreetMap retail mix and Taipei Metro passenger flow explain each station area's commercial profile.
+- Limitation: longer 2022-present opening/closure percentages remain city-level context, not station-level proof.
+- Next data need: a full station-geocoded 2022-present business-event panel.
+
 ## Important Method Note
 
 The project separates verified metrics from proxy metrics:
