@@ -1,0 +1,4 @@
+station_id,station_name,event_month,openings,closures,net_change,total_events,closure_rate_of_events_pct,total_osm_pois,total_station_flow,turnover_events_per_100_pois,openings_per_100_pois,closures_per_100_pois,passenger_flow_per_poi,event_share_pct,poi_share_pct,flow_share_pct
+zhongshan,Zhongshan,2026-04,12,11,1,23,47.83,867,551338,2.65,1.38,1.27,635.9,74.19,40.14,40.67
+zhongxiao_fuxing,Zhongxiao Fuxing,2026-04,3,2,1,5,40.0,561,479242,0.89,0.53,0.36,854.3,16.13,25.97,35.35
+gongguan,Gongguan,2026-04,2,1,1,3,33.33,732,324978,0.41,0.27,0.14,444.0,9.68,33.89,23.97

@@ -84,6 +84,8 @@ Extension methods added after the first reproducible version:
 - Exit-based catchments: official station-exit points are buffered by 500 m and dissolved by station. This tests whether using station exits changes the observed POI mix.
 - Passenger-flow metric: March 2026 station OD totals are aggregated into entries, exits, and total station flow.
 - Manual validation sample: a small OSM POI sample is exported for manual category checking.
+- Station-level business openings and closures: official Taipei City geocoded establishment and closure records are spatially joined to the 500 m station catchments for the latest available month.
+- Normalized station indicators: latest opening/closure events are divided by the OpenStreetMap mapped-place base to compare turnover intensity across station areas.
 
 ## Comparative station analysis
 
@@ -127,13 +129,33 @@ The station-exit layer is treated as a verified spatial input from the local Tai
 
 Passenger flow is a verified metric from the Taipei Metro OD file used here, aggregated as station entries plus station exits. It is still a proxy for nearby commercial foot traffic because not every station passenger becomes a retail pedestrian inside the 500 m catchment.
 
+## Business opening and closure evidence
+
+### Latest station-level business openings and closures
+
+{markdown_table(TABLES_DIR / "station_business_open_close_latest_month_summary.csv")}
+
+These station-level counts use official Taipei City geocoded business establishment and closure records for the latest available month. The records are spatially joined into the three 500 m station catchments, so this is the strongest direct opening/closure evidence currently available in the project.
+
+### Normalized station turnover indicators
+
+{markdown_table(TABLES_DIR / "station_normalized_turnover_indicators.csv")}
+
+Raw event counts show absolute opening/closure volume. The normalized indicator `turnover_events_per_100_pois` divides latest opening plus closure events by the OpenStreetMap mapped-place base. This does not turn OpenStreetMap into an official denominator, but it makes the station comparison more defensible because larger mapped retail bases no longer automatically dominate the comparison.
+
 ## Manual validation sample
 
 A manual category-check sample was exported to `outputs/tables/manual_osm_category_validation_sample.csv`. This file should be checked against OSM, Google Maps, or field knowledge by filling in the `manual_category_check` and `manual_notes` columns.
 
 ## Findings
 
-The core interpretation should focus on differences in observed POI density and category mix across the three buffers. Gongguan is expected to show strong food, cafe, convenience, and education-related activity because of its student-oriented context. Zhongxiao Fuxing is expected to show a higher-intensity commercial profile with more premium retail and service activity because it is a major transfer and shopping node. Zhongshan is expected to show a mixed shopping, culture, tourism, and lifestyle profile.
+The core interpretation should focus on differences in verified latest-month business turnover, observed POI density, passenger-flow context, and category mix across the three buffers.
+
+Zhongshan has the strongest latest-month opening/closure signal among the three stations. It has 23 latest-month events and 2.65 opening/closure events per 100 mapped places.
+
+Zhongxiao Fuxing has lower latest-month opening/closure volume than Zhongshan, but it has the highest passenger-flow intensity per mapped place. This supports the caveat that simple point counts may understate its vertical malls, department stores, underground retail, and premium commercial activity.
+
+Gongguan has the lowest latest-month business-turnover intensity in this comparison, but its OpenStreetMap retail mix still supports the framing of a student-oriented food and everyday-service node.
 
 These findings should be read as OSM-based indicators rather than final ground truth. If the POI tables are empty or incomplete, rerun the OSM collection step with internet access and current package versions.
 
@@ -141,11 +163,11 @@ These findings should be read as OSM-based indicators rather than final ground t
 
 - OpenStreetMap completeness varies by neighborhood and tagging behavior.
 - A 500 m circular buffer is simple and reproducible, but it does not model pedestrian network distance, barriers, street connectivity, or station exits.
-- POI counts do not measure revenue, vacancy, rent, foot traffic, store size, or business turnover.
+- POI counts do not measure revenue, vacancy, rent, foot traffic, store size, or long-run business turnover.
 - Category classification is rule-based and may misclassify ambiguous OSM tags.
 - District-level demographic indicators should not be treated as final evidence for station-level catchments.
-- This version does not include village-level demographics, land-use polygons, bus stops, building footprints, storefront vacancy records, or official business opening/closure records.
-- Business turnover/opening/closure data was not added because reliable address matching and geocoding were not implemented in this pass. Adding it without transparent geocoding would create false precision.
+- This version does not include village-level demographics, land-use polygons, bus stops, building footprints, storefront vacancy records, rent, revenue, or store-size records.
+- Latest-month station-level business opening/closure data is included, but the full 2022-present station-geocoded opening/closure panel is not available in this project. The longer historical opening/closure percentages remain city-level or national industry context, not station-level proof.
 
 ## Placeholder datasets for future extension
 
@@ -157,7 +179,7 @@ Bus stops and transfer facilities should be added to improve the interpretation 
 
 Building footprints should be added to estimate built-form density and ground-floor commercial potential.
 
-Official business registration, opening, and closure records should be added only if address matching or geocoding is transparent enough to avoid false precision.
+Additional official business registration, opening, and closure records should be added only if address matching or geocoding is transparent enough to avoid false precision.
 
 ## Next steps
 

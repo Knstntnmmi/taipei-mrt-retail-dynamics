@@ -1,6 +1,10 @@
 from pathlib import Path
 import textwrap
 
+import matplotlib
+
+matplotlib.use("Agg")
+
 import matplotlib.pyplot as plt
 import pandas as pd
 from matplotlib.patches import FancyBboxPatch
@@ -107,6 +111,29 @@ def load_inputs() -> pd.DataFrame:
     ].fillna(0).astype(int)
     categories["closure_rate_of_events_pct"] = categories["closure_rate_of_events_pct"].fillna(0)
     categories["event_month"] = categories["event_month"].fillna("latest month")
+
+    indicator_path = TABLES_DIR / "station_normalized_turnover_indicators.csv"
+    if indicator_path.exists():
+        indicators = pd.read_csv(indicator_path)
+        indicator_cols = [
+            "station_id",
+            "turnover_events_per_100_pois",
+            "openings_per_100_pois",
+            "closures_per_100_pois",
+            "passenger_flow_per_poi",
+            "event_share_pct",
+        ]
+        categories = categories.merge(indicators[indicator_cols], on="station_id", how="left")
+    else:
+        categories["turnover_events_per_100_pois"] = (
+            categories["total_events"] / categories["total_osm_pois"] * 100
+        ).round(2)
+        categories["passenger_flow_per_poi"] = (
+            categories["total_station_flow"] / categories["total_osm_pois"]
+        ).round(1)
+        categories["event_share_pct"] = (
+            categories["total_events"] / categories["total_events"].sum() * 100
+        ).round(2)
     return categories
 
 
@@ -279,6 +306,79 @@ def draw_station_comparison(ax, categories: pd.DataFrame, station_id: str) -> No
         )
 
 
+def draw_normalized_metrics(ax, categories: pd.DataFrame, station_id: str) -> None:
+    rounded_panel(ax)
+    station = categories[categories["station_id"] == station_id].iloc[0]
+    max_turnover = max(categories["turnover_events_per_100_pois"].max(), 1)
+    max_flow_per_poi = max(categories["passenger_flow_per_poi"].max(), 1)
+    color = STATION_FRAMING[station_id]["color"]
+
+    ax.text(0.055, 0.82, "Normalized indicators", transform=ax.transAxes, fontsize=14.5, weight="bold", color=TEXT)
+    ax.text(0.055, 0.7, "Derived rates make station areas comparable.", transform=ax.transAxes, fontsize=9.8, color=MUTED)
+
+    metrics = [
+        (
+            "Turnover",
+            "events / 100 mapped places",
+            f"{station['turnover_events_per_100_pois']:.2f}",
+            station["turnover_events_per_100_pois"] / max_turnover,
+        ),
+        (
+            "Flow intensity",
+            "passengers / mapped place",
+            f"{station['passenger_flow_per_poi']:.1f}",
+            station["passenger_flow_per_poi"] / max_flow_per_poi,
+        ),
+        (
+            "Event share",
+            "of three-station total",
+            f"{station['event_share_pct']:.1f}%",
+            station["event_share_pct"] / 100,
+        ),
+    ]
+
+    for index, (label, sublabel, value, ratio) in enumerate(metrics):
+        x = 0.055 + index * 0.31
+        width = 0.26
+        ax.add_patch(
+            FancyBboxPatch(
+                (x, 0.17),
+                width,
+                0.42,
+                boxstyle="round,pad=0.012,rounding_size=0.018",
+                linewidth=1,
+                edgecolor=LINE,
+                facecolor=CARD_ALT,
+                transform=ax.transAxes,
+            )
+        )
+        ax.text(x + 0.025, 0.48, label, transform=ax.transAxes, fontsize=9.5, weight="bold", color=TEXT)
+        ax.text(x + 0.025, 0.39, sublabel, transform=ax.transAxes, fontsize=7.9, color=MUTED)
+        ax.text(x + 0.025, 0.25, value, transform=ax.transAxes, fontsize=17, weight="bold", color=TEXT)
+        ax.add_patch(
+            FancyBboxPatch(
+                (x + 0.025, 0.2),
+                width - 0.05,
+                0.026,
+                boxstyle="round,pad=0,rounding_size=0.008",
+                linewidth=0,
+                facecolor="#263229",
+                transform=ax.transAxes,
+            )
+        )
+        ax.add_patch(
+            FancyBboxPatch(
+                (x + 0.025, 0.2),
+                (width - 0.05) * min(max(ratio, 0), 1),
+                0.026,
+                boxstyle="round,pad=0,rounding_size=0.008",
+                linewidth=0,
+                facecolor=color,
+                transform=ax.transAxes,
+            )
+        )
+
+
 def draw_station_frame(station_id: str, categories: pd.DataFrame) -> plt.Figure:
     meta = STATION_FRAMING[station_id]
     station = categories[categories["station_id"] == station_id].iloc[0]
@@ -372,28 +472,7 @@ def draw_station_frame(station_id: str, categories: pd.DataFrame) -> plt.Figure:
     else:
         image_ax.text(0.5, 0.5, "Map not available", ha="center", va="center", color=MUTED)
 
-    category_cols = list(CATEGORY_LABELS)
-    values = pd.Series({col: station[col] for col in category_cols}).sort_values(ascending=True).tail(6)
-    bar_ax = fig.add_subplot(grid[3, 3:8])
-    bar_ax.set_facecolor(CARD)
-    labels = [CATEGORY_SHORT_LABELS[col] for col in values.index]
-    bar_ax.barh(
-        range(len(values)),
-        values.values,
-        color=[CATEGORY_COLORS[col] for col in values.index],
-    )
-    bar_ax.set_title("Top mapped retail categories", loc="left", fontsize=14.5, weight="bold", color=TEXT, pad=10)
-    bar_ax.set_xlabel("OpenStreetMap mapped places", color=MUTED)
-    bar_ax.set_yticks([])
-    bar_ax.set_xticks([0, 100, 200, 300])
-    bar_ax.tick_params(axis="x", colors=MUTED, labelsize=9.5)
-    bar_ax.grid(axis="x", color="#2A382E", linewidth=0.8)
-    for spine in bar_ax.spines.values():
-        spine.set_visible(False)
-    for y, value in enumerate(values.values):
-        bar_ax.text(-66, y, labels[y], va="center", fontsize=9.5, color=TEXT, weight="bold")
-        bar_ax.text(value + 4, y, f"{int(value):,}", va="center", fontsize=9.5, color=TEXT)
-    bar_ax.set_xlim(-72, max(values.max() * 1.18, 120))
+    draw_normalized_metrics(fig.add_subplot(grid[3, 3:8]), categories, station_id)
 
     evidence_ax = fig.add_subplot(grid[3, 8:12])
     rounded_panel(evidence_ax)
@@ -444,30 +523,20 @@ def save_outputs() -> None:
         frames.append(frame.copy())
         frame_path.unlink()
 
-    smooth_frames = []
-    hold_frames = 7
-    transition_frames = 5
-    for index, frame in enumerate(frames):
-        next_frame = frames[(index + 1) % len(frames)]
-        smooth_frames.extend([frame.copy() for _ in range(hold_frames)])
-        for step in range(1, transition_frames + 1):
-            amount = step / (transition_frames + 1)
-            smooth_frames.append(Image.blend(frame, next_frame, amount))
-
-    palette_frames = [frame.quantize(colors=96) for frame in smooth_frames]
+    palette_frames = [frame.quantize(colors=96) for frame in frames]
     gif_path = CHARTS_DIR / "mrt_station_retail_dynamics_loop.gif"
     palette_frames[0].save(
         gif_path,
         save_all=True,
         append_images=palette_frames[1:],
-        duration=85,
+        duration=1600,
         loop=0,
         disposal=2,
         optimize=False,
     )
 
     static_fig = draw_station_frame("zhongshan", categories)
-    static_fig.savefig(CHARTS_DIR / "mrt_station_retail_dynamics_frontpage.png", dpi=180, bbox_inches="tight", facecolor=BG)
+    static_fig.savefig(CHARTS_DIR / "mrt_station_retail_dynamics_frontpage.png", dpi=160, facecolor=BG)
     plt.close(static_fig)
 
 

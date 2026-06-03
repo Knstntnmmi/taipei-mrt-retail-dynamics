@@ -31,6 +31,18 @@ It shows each station's:
 
 Zhongshan has the highest latest-month opening/closure volume among the three catchments. Gongguan and Zhongxiao Fuxing have lower latest-month turnover counts but still show both openings and closures inside the 500 m station areas.
 
+## Normalized Evidence
+
+Raw event counts are now paired with derived normalized indicators:
+
+| Station | Events per 100 mapped places | Passenger flow per mapped place | Share of latest events |
+|---|---:|---:|---:|
+| Zhongshan | 2.65 | 635.9 | 74.19% |
+| Zhongxiao Fuxing | 0.89 | 854.3 | 16.13% |
+| Gongguan | 0.41 | 444.0 | 9.68% |
+
+This makes the comparison more defensible. Zhongshan still has the strongest latest-month turnover signal after normalizing by the mapped retail base. Zhongxiao Fuxing shows the highest passenger-flow intensity per mapped place, which supports the caveat that point-of-interest counts may understate vertical and underground retail.
+
 ## Data-Science Argument
 
 The project is framed as a reproducible claim-evidence-limitation analysis:

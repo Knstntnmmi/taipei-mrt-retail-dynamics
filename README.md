@@ -26,6 +26,16 @@ Latest official station-level business events inside each 500 m catchment:
 
 These counts come from official Taipei City geocoded business establishment and closure files for April 2026. Zhongshan has the highest latest-month opening and closure volume among the three station catchments. The longer 2022-2025 opening/closure percentages are still included as city-level industry context because the full historical records are not available here as a clean station-geocoded panel.
 
+Normalized comparison:
+
+| Station | Events per 100 mapped places | Passenger flow per mapped place | Share of latest events |
+|---|---:|---:|---:|
+| Zhongshan | 2.65 | 635.9 | 74.19% |
+| Zhongxiao Fuxing | 0.89 | 854.3 | 16.13% |
+| Gongguan | 0.41 | 444.0 | 9.68% |
+
+This improves the statistical interpretation. Raw opening/closure counts show absolute turnover volume. Events per 100 mapped places adds a size-normalized comparison using OpenStreetMap mapped places as the denominator. Passenger flow per mapped place highlights a different pressure signal: Zhongxiao Fuxing has fewer mapped places but much higher passenger-flow intensity, which supports the limitation that vertical malls, department stores, and underground retail may be undercounted by point-of-interest data.
+
 Supporting station context:
 
 | Station | Current mapped places | March 2026 station flow | Largest mapped category |
@@ -91,7 +101,8 @@ taipei-mrt-retail-dynamics/
 │   ├── 11_generate_innofest_poster.py
 │   ├── 12_collect_business_open_close.py
 │   ├── 14_make_station_frontpage_animation.py
-│   └── 15_collect_station_business_events.py
+│   ├── 15_collect_station_business_events.py
+│   └── 16_compute_station_indicators.py
 ├── reports/
 │   └── taipei_mrt_retail_dynamics_report.md
 └── outputs/
@@ -111,6 +122,7 @@ taipei-mrt-retail-dynamics/
 | Taipei MRT station exits | Verified local source file | Creates exit-based catchment sensitivity check |
 | Taipei Metro passenger flow | Verified local source file | Adds station-level entries-plus-exits comparison |
 | Latest station-level business opening/closure data | Verified official Taipei City geocoded data | Adds April 2026 opening/closure counts inside each 500 m station catchment |
+| Normalized station indicators | Derived metric from verified events plus proxy OpenStreetMap denominator | Compares turnover per 100 mapped places and passenger flow per mapped place |
 | Longer opening/closure percentage data | Verified official city and national industry data | Adds 2022-present opening/closing percentages by business category as context |
 | Business turnover / revenue data | Not included | Requires separate official source and transparent spatial matching |
 | Demographic, land-use, bus-stop, building-footprint data | Placeholder only | Future extension layers |
@@ -180,6 +192,8 @@ The preferred method remains **buffer-first spatial joining**. All point-of-inte
 ### Official business opening/closing dynamics
 
 ![Station-level business openings and closures, latest month](outputs/charts/station_business_open_close_latest_month.png)
+
+![Station turnover per 100 mapped places](outputs/charts/station_turnover_per_100_pois.png)
 
 ![Taipei business openings and closures by category](outputs/charts/taipei_business_open_close_by_category_2022_2025.png)
 
@@ -340,6 +354,7 @@ python scripts/09_make_validation_sample.py
 python scripts/10_compare_catchment_methods.py
 python scripts/12_collect_business_open_close.py
 python scripts/15_collect_station_business_events.py
+python scripts/16_compute_station_indicators.py
 python scripts/14_make_station_frontpage_animation.py
 python scripts/04_make_maps_and_charts.py
 python scripts/05_generate_report.py
@@ -357,6 +372,7 @@ The OpenStreetMap scripts require internet access because they query OpenStreetM
 - [Poster generator script](scripts/11_generate_innofest_poster.py)
 - [Station front-page animation script](scripts/14_make_station_frontpage_animation.py)
 - [Station-level business event script](scripts/15_collect_station_business_events.py)
+- [Normalized station indicator script](scripts/16_compute_station_indicators.py)
 
 ### Spatial outputs
 
@@ -376,6 +392,7 @@ The OpenStreetMap scripts require internet access because they query OpenStreetM
 - [Passenger flow by station](outputs/tables/mrt_passenger_flow_by_station.csv)
 - [Manual OpenStreetMap validation sample](outputs/tables/manual_osm_category_validation_sample.csv)
 - [Station-level business openings and closures, latest month](outputs/tables/station_business_open_close_latest_month_summary.csv)
+- [Normalized station turnover indicators](outputs/tables/station_normalized_turnover_indicators.csv)
 - [Station-level business event records, latest month](outputs/tables/station_business_events_latest_month.csv)
 - [Station-level opening/closure data status](outputs/tables/station_business_open_close_data_status.csv)
 - [Taipei business opening/closing category totals](outputs/tables/taipei_business_open_close_category_totals_2022_2025.csv)
@@ -388,6 +405,7 @@ The OpenStreetMap scripts require internet access because they query OpenStreetM
 - [Animated station-by-station front-page loop](outputs/charts/mrt_station_retail_dynamics_loop.gif)
 - [Static station front-page dashboard](outputs/charts/mrt_station_retail_dynamics_frontpage.png)
 - [Station-level business openings and closures, latest month](outputs/charts/station_business_open_close_latest_month.png)
+- [Station turnover per 100 mapped places](outputs/charts/station_turnover_per_100_pois.png)
 
 ## Next improvements
 
