@@ -1,5 +1,9 @@
 # Taipei MRT Retail Dynamics
 
+![Dark station-level business turnover summary](outputs/charts/readme_dark_summary.svg)
+
+![Animated station-by-station MRT retail dynamics loop](outputs/charts/mrt_station_retail_dynamics_loop.gif)
+
 ## Business openings, closures, and retail dynamics around Gongguan, Zhongxiao Fuxing, and Zhongshan MRT stations
 
 This repository contains a reproducible Python data science project that compares business openings, business closures, retail mix, and passenger-flow context within 500 m catchments around three Taipei MRT stations:
@@ -20,8 +24,6 @@ The core question is whether the three station areas show different levels of co
 ## Start here: station-level openings and closures
 
 The main GitHub visual is a looping front-page dashboard focused on business openings and closures around the three MRT stations. It cycles through Gongguan, Zhongxiao Fuxing, and Zhongshan, with the verified latest-month opening/closure counts shown first and the 500 m catchment map, mapped retail categories, passenger flow, and three-station ranking shown as supporting context.
-
-![Animated station-by-station MRT retail dynamics loop](outputs/charts/mrt_station_retail_dynamics_loop.gif)
 
 Latest official station-level business events inside each 500 m catchment:
 

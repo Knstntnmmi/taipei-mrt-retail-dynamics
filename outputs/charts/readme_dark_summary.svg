@@ -1,0 +1,25 @@
+<svg width="1200" height="430" viewBox="0 0 1200 430" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="430" rx="22" fill="#060806"/>
+  <rect x="34" y="34" width="1128" height="362" rx="18" fill="#101610" stroke="#2F3D33" stroke-width="2"/>
+  <text x="64" y="86" fill="#F1F7F0" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="800">Station-Level Business Turnover Evidence</text>
+  <text x="64" y="124" fill="#AEB9B0" font-family="Inter, Arial, sans-serif" font-size="18">April 2026 official geocoded Taipei City business events inside 500 m MRT catchments</text>
+  <line x1="64" y1="151" x2="316" y2="151" stroke="#76B900" stroke-width="5" stroke-linecap="round"/>
+
+  <rect x="64" y="188" width="330" height="148" rx="14" fill="#151D15" stroke="#2F3D33"/>
+  <text x="88" y="226" fill="#5EC64D" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="800">Zhongshan</text>
+  <text x="88" y="261" fill="#F1F7F0" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="800">+12 / -11</text>
+  <text x="88" y="292" fill="#AEB9B0" font-family="Inter, Arial, sans-serif" font-size="16">openings / closures</text>
+  <text x="88" y="320" fill="#AEB9B0" font-family="Inter, Arial, sans-serif" font-size="16">2.65 events per 100 mapped places</text>
+
+  <rect x="435" y="188" width="330" height="148" rx="14" fill="#151D15" stroke="#2F3D33"/>
+  <text x="459" y="226" fill="#A3FF12" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="800">Zhongxiao Fuxing</text>
+  <text x="459" y="261" fill="#F1F7F0" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="800">854.3</text>
+  <text x="459" y="292" fill="#AEB9B0" font-family="Inter, Arial, sans-serif" font-size="16">passenger flow per mapped place</text>
+  <text x="459" y="320" fill="#AEB9B0" font-family="Inter, Arial, sans-serif" font-size="16">POI counts may understate vertical retail</text>
+
+  <rect x="806" y="188" width="330" height="148" rx="14" fill="#151D15" stroke="#2F3D33"/>
+  <text x="830" y="226" fill="#76B900" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="800">Evidence Boundary</text>
+  <text x="830" y="262" fill="#F1F7F0" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700">Verified: latest station events + MRT flow</text>
+  <text x="830" y="294" fill="#AEB9B0" font-family="Inter, Arial, sans-serif" font-size="16">Proxy: OpenStreetMap mapped places</text>
+  <text x="830" y="322" fill="#AEB9B0" font-family="Inter, Arial, sans-serif" font-size="16">2022-present history remains city-level context</text>
+</svg>

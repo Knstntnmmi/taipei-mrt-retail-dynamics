@@ -1,5 +1,9 @@
 from pathlib import Path
+import os
 import textwrap
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+os.environ.setdefault("MPLCONFIGDIR", str(PROJECT_ROOT / ".matplotlib-cache"))
 
 import matplotlib
 
@@ -11,7 +15,6 @@ from matplotlib.patches import FancyBboxPatch
 from PIL import Image
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
 TABLES_DIR = PROJECT_ROOT / "outputs" / "tables"
 CHARTS_DIR = PROJECT_ROOT / "outputs" / "charts"
 MAPS_DIR = PROJECT_ROOT / "outputs" / "poster" / "station_profile_maps"
@@ -74,13 +77,14 @@ CATEGORY_COLORS = {
 }
 
 TEXT = "#F1F7F0"
-MUTED = "#AAB8AE"
-BG = "#050806"
-CARD = "#111713"
-CARD_ALT = "#172119"
+MUTED = "#AEB9B0"
+BG = "#060806"
+CARD = "#101610"
+CARD_ALT = "#151D15"
 GREEN = "#76B900"
 RED = "#F05A28"
-LINE = "#2D3A31"
+LINE = "#2F3D33"
+TRACK = "#263028"
 
 
 def load_inputs() -> pd.DataFrame:
@@ -154,6 +158,23 @@ def rounded_panel(ax, radius: float = 0.035) -> None:
     )
 
 
+def draw_badge(ax, x: float, y: float, text: str, color: str = GREEN) -> None:
+    width = 0.016 * len(text) + 0.04
+    ax.add_patch(
+        FancyBboxPatch(
+            (x, y),
+            width,
+            0.12,
+            boxstyle="round,pad=0.008,rounding_size=0.025",
+            linewidth=1,
+            edgecolor=color,
+            facecolor="#121B10",
+            transform=ax.transAxes,
+        )
+    )
+    ax.text(x + 0.02, y + 0.06, text, transform=ax.transAxes, va="center", fontsize=9, weight="bold", color=color)
+
+
 def add_wrapped_text(ax, x: float, y: float, text: str, width: int, **kwargs) -> None:
     kwargs.setdefault("va", "top")
     ax.text(x, y, "\n".join(textwrap.wrap(text, width=width)), transform=ax.transAxes, **kwargs)
@@ -193,49 +214,33 @@ def draw_turnover_panel(ax, station: pd.Series, color: str) -> None:
     closure_rate = float(station["closure_rate_of_events_pct"])
     max_events = max(openings, closures, 1)
 
-    ax.text(
-        0.055,
-        0.88,
-        "Business turnover inside 500 m",
-        transform=ax.transAxes,
-        fontsize=16,
-        weight="bold",
-        color=TEXT,
-    )
-    ax.text(
-        0.055,
-        0.805,
-        f"Official Taipei City geocoded records, {month}",
-        transform=ax.transAxes,
-        fontsize=10.5,
-        color=MUTED,
-    )
+    draw_badge(ax, 0.055, 0.82, "VERIFIED STATION-LEVEL")
+    ax.text(0.055, 0.72, f"Business turnover inside 500 m · {month}", transform=ax.transAxes, fontsize=16, weight="bold", color=TEXT)
 
-    draw_metric_pill(ax, 0.055, 0.59, "openings", f"+{openings}", GREEN)
-    draw_metric_pill(ax, 0.34, 0.59, "closures", f"-{closures}", RED)
-    draw_metric_pill(ax, 0.625, 0.59, "net change", f"{net_change:+d}", color)
+    draw_metric_pill(ax, 0.055, 0.51, "openings", f"+{openings}", GREEN)
+    draw_metric_pill(ax, 0.34, 0.51, "closures", f"-{closures}", RED)
+    draw_metric_pill(ax, 0.625, 0.51, "net change", f"{net_change:+d}", color)
 
     ax.text(
         0.055,
-        0.43,
+        0.35,
         "Opening and closure volume",
         transform=ax.transAxes,
         fontsize=11.5,
         weight="bold",
         color=TEXT,
     )
-    ax.text(0.055, 0.34, "Open", transform=ax.transAxes, fontsize=10.5, color=MUTED)
-    ax.add_patch(FancyBboxPatch((0.19, 0.347), 0.67, 0.052, boxstyle="round,pad=0,rounding_size=0.014", linewidth=0, facecolor="#243024", transform=ax.transAxes))
-    ax.add_patch(FancyBboxPatch((0.19, 0.347), 0.67 * openings / max_events, 0.052, boxstyle="round,pad=0,rounding_size=0.014", linewidth=0, facecolor=GREEN, transform=ax.transAxes))
-    ax.text(0.89, 0.34, f"{openings}", transform=ax.transAxes, fontsize=11, weight="bold", color=TEXT)
+    ax.text(0.055, 0.27, "Open", transform=ax.transAxes, fontsize=10.5, color=MUTED)
+    ax.add_patch(FancyBboxPatch((0.19, 0.277), 0.67, 0.052, boxstyle="round,pad=0,rounding_size=0.014", linewidth=0, facecolor=TRACK, transform=ax.transAxes))
+    ax.add_patch(FancyBboxPatch((0.19, 0.277), 0.67 * openings / max_events, 0.052, boxstyle="round,pad=0,rounding_size=0.014", linewidth=0, facecolor=GREEN, transform=ax.transAxes))
+    ax.text(0.89, 0.27, f"{openings}", transform=ax.transAxes, fontsize=11, weight="bold", color=TEXT)
 
-    ax.text(0.055, 0.25, "Close", transform=ax.transAxes, fontsize=10.5, color=MUTED)
-    ax.add_patch(FancyBboxPatch((0.19, 0.257), 0.67, 0.052, boxstyle="round,pad=0,rounding_size=0.014", linewidth=0, facecolor="#3A211C", transform=ax.transAxes))
-    ax.add_patch(FancyBboxPatch((0.19, 0.257), 0.67 * closures / max_events, 0.052, boxstyle="round,pad=0,rounding_size=0.014", linewidth=0, facecolor=RED, transform=ax.transAxes))
-    ax.text(0.89, 0.25, f"{closures}", transform=ax.transAxes, fontsize=11, weight="bold", color=TEXT)
+    ax.text(0.055, 0.18, "Close", transform=ax.transAxes, fontsize=10.5, color=MUTED)
+    ax.add_patch(FancyBboxPatch((0.19, 0.187), 0.67, 0.052, boxstyle="round,pad=0,rounding_size=0.014", linewidth=0, facecolor="#3A211C", transform=ax.transAxes))
+    ax.add_patch(FancyBboxPatch((0.19, 0.187), 0.67 * closures / max_events, 0.052, boxstyle="round,pad=0,rounding_size=0.014", linewidth=0, facecolor=RED, transform=ax.transAxes))
+    ax.text(0.89, 0.18, f"{closures}", transform=ax.transAxes, fontsize=11, weight="bold", color=TEXT)
 
-    ax.text(0.055, 0.115, f"{closure_rate:.2f}% closure rate ({total_events} latest-month events)", transform=ax.transAxes, fontsize=11.5, weight="bold", color=TEXT)
-    ax.text(0.055, 0.055, "Verified station-level evidence; not a full 2022-present station history.", transform=ax.transAxes, fontsize=10, color=MUTED)
+    ax.text(0.055, 0.075, f"{closure_rate:.2f}% closure rate across {total_events} latest-month events", transform=ax.transAxes, fontsize=11.5, weight="bold", color=TEXT)
 
 
 def draw_station_comparison(ax, categories: pd.DataFrame, station_id: str) -> None:
@@ -264,7 +269,7 @@ def draw_station_comparison(ax, categories: pd.DataFrame, station_id: str) -> No
                 0.055,
                 boxstyle="round,pad=0,rounding_size=0.01",
                 linewidth=0,
-                facecolor="#263229",
+                facecolor=TRACK,
                 transform=ax.transAxes,
             )
         )
@@ -307,8 +312,8 @@ def draw_normalized_metrics(ax, categories: pd.DataFrame, station_id: str) -> No
     max_flow_per_poi = max(categories["passenger_flow_per_poi"].max(), 1)
     color = STATION_FRAMING[station_id]["color"]
 
-    ax.text(0.055, 0.82, "Normalized indicators", transform=ax.transAxes, fontsize=14.5, weight="bold", color=TEXT)
-    ax.text(0.055, 0.7, "Derived rates make station areas comparable.", transform=ax.transAxes, fontsize=9.8, color=MUTED)
+    ax.text(0.055, 0.84, "Normalized indicators", transform=ax.transAxes, fontsize=14.5, weight="bold", color=TEXT)
+    ax.text(0.055, 0.71, "Rates reduce the bias of comparing raw counts only.", transform=ax.transAxes, fontsize=9.8, color=MUTED)
 
     metrics = [
         (
@@ -356,7 +361,7 @@ def draw_normalized_metrics(ax, categories: pd.DataFrame, station_id: str) -> No
                 0.026,
                 boxstyle="round,pad=0,rounding_size=0.008",
                 linewidth=0,
-                facecolor="#263229",
+                facecolor=TRACK,
                 transform=ax.transAxes,
             )
         )
@@ -381,37 +386,41 @@ def draw_station_frame(station_id: str, categories: pd.DataFrame) -> plt.Figure:
     grid = fig.add_gridspec(
         5,
         12,
-        height_ratios=[0.72, 1.38, 1.48, 1.48, 0.42],
-        hspace=0.34,
-        wspace=0.32,
+        height_ratios=[0.82, 1.35, 1.5, 1.45, 0.32],
+        hspace=0.24,
+        wspace=0.24,
+        left=0.045,
+        right=0.965,
+        top=0.94,
+        bottom=0.06,
     )
 
     title_ax = fig.add_subplot(grid[0, :])
     title_ax.axis("off")
-    title_ax.add_patch(
-        FancyBboxPatch(
-            (0, 0.02),
-            0.22,
-            0.065,
-            boxstyle="round,pad=0,rounding_size=0.02",
-            linewidth=0,
-            facecolor=GREEN,
-            transform=title_ax.transAxes,
-        )
+    title_ax.plot([0, 0.22], [0.08, 0.08], transform=title_ax.transAxes, color=GREEN, linewidth=3, solid_capstyle="round")
+    title_ax.text(
+        0.24,
+        0.08,
+        "April 2026 verified business events",
+        transform=title_ax.transAxes,
+        va="center",
+        fontsize=9.5,
+        weight="bold",
+        color=GREEN,
     )
     title_ax.text(
         0,
-        0.72,
-        "Station Business Turnover Around Taipei MRT",
-        fontsize=28,
+        0.76,
+        "Taipei MRT Retail Turnover",
+        fontsize=31,
         weight="bold",
         color=TEXT,
         transform=title_ax.transAxes,
     )
     title_ax.text(
         0,
-        0.24,
-        "A three-station loop centered on verified openings and closures, with retail-mix and passenger-flow context",
+        0.35,
+        "Opening and closure evidence around Gongguan, Zhongxiao Fuxing, and Zhongshan",
         fontsize=13,
         color=MUTED,
         transform=title_ax.transAxes,
@@ -458,7 +467,7 @@ def draw_station_frame(station_id: str, categories: pd.DataFrame) -> plt.Figure:
     map_ax = fig.add_subplot(grid[2:4, 0:3])
     rounded_panel(map_ax)
     map_ax.text(0.055, 0.93, "500 m station catchment", transform=map_ax.transAxes, fontsize=14.5, weight="bold", color=TEXT)
-    image_ax = map_ax.inset_axes([0.055, 0.07, 0.89, 0.8])
+    image_ax = map_ax.inset_axes([0.055, 0.055, 0.89, 0.82])
     image_ax.axis("off")
     map_ax.axis("off")
     if meta["map"].exists():
@@ -470,20 +479,17 @@ def draw_station_frame(station_id: str, categories: pd.DataFrame) -> plt.Figure:
 
     evidence_ax = fig.add_subplot(grid[3, 8:12])
     rounded_panel(evidence_ax)
-    evidence_ax.text(0.055, 0.79, "Evidence status", transform=evidence_ax.transAxes, fontsize=14.5, weight="bold", color=TEXT)
-    evidence_ax.text(0.055, 0.59, f"{int(station['total_osm_pois']):,}", transform=evidence_ax.transAxes, fontsize=22, weight="bold", color=meta["color"])
-    evidence_ax.text(0.28, 0.625, "mapped places\nproxy retail mix", transform=evidence_ax.transAxes, fontsize=10.2, color=MUTED, va="center")
-    evidence_ax.text(0.055, 0.34, f"{int(station['total_station_flow']):,}", transform=evidence_ax.transAxes, fontsize=22, weight="bold", color="#A3FF12")
-    evidence_ax.text(0.42, 0.375, "March 2026 station flow\nverified Taipei Metro metric", transform=evidence_ax.transAxes, fontsize=10.2, color=MUTED, va="center")
-    add_wrapped_text(
-        evidence_ax,
-        0.055,
-        0.17,
-        "2022-present data: city-level context only.",
-        width=44,
-        fontsize=9.2,
-        color=MUTED,
-    )
+    evidence_ax.text(0.055, 0.82, "Evidence quality", transform=evidence_ax.transAxes, fontsize=14.5, weight="bold", color=TEXT)
+    rows = [
+        ("Verified", "April 2026 business events", GREEN),
+        ("Verified", "March 2026 MRT flow", "#A3FF12"),
+        ("Proxy", "OpenStreetMap mapped places", MUTED),
+    ]
+    for index, (status, label, row_color) in enumerate(rows):
+        y = 0.6 - index * 0.2
+        draw_badge(evidence_ax, 0.055, y, status.upper(), row_color)
+        evidence_ax.text(0.34, y + 0.06, label, transform=evidence_ax.transAxes, va="center", fontsize=10.5, color=TEXT if index < 2 else MUTED)
+    evidence_ax.text(0.055, 0.08, "2022-present history remains city-level context.", transform=evidence_ax.transAxes, fontsize=9.2, color=MUTED)
 
     note_ax = fig.add_subplot(grid[3, :])
     note_ax.axis("off")
@@ -494,8 +500,8 @@ def draw_station_frame(station_id: str, categories: pd.DataFrame) -> plt.Figure:
     note_ax.text(
         0,
         0.48,
-        "Verified station-level: latest monthly business openings/closures and MRT passenger flow. Proxy station-level: OpenStreetMap mapped places and retail category mix.",
-        fontsize=10.8,
+        "Main read: Zhongshan leads latest-month turnover; Zhongxiao Fuxing shows the highest flow intensity per mapped place.",
+        fontsize=10.5,
         color=MUTED,
         transform=note_ax.transAxes,
     )
@@ -503,11 +509,13 @@ def draw_station_frame(station_id: str, categories: pd.DataFrame) -> plt.Figure:
 
 
 def save_outputs() -> None:
+    print("Loading front-page inputs")
     CHARTS_DIR.mkdir(parents=True, exist_ok=True)
     categories = load_inputs()
 
     frames = []
     for station_id in STATION_ORDER:
+        print(f"Rendering front-page frame: {station_id}")
         fig = draw_station_frame(station_id, categories)
         frame_path = CHARTS_DIR / f"_station_frontpage_{station_id}.png"
         fig.savefig(frame_path, dpi=100, facecolor=BG)
@@ -517,6 +525,7 @@ def save_outputs() -> None:
         frames.append(frame.copy())
         frame_path.unlink()
 
+    print("Saving front-page GIF")
     palette_frames = [frame.quantize(colors=96) for frame in frames]
     gif_path = CHARTS_DIR / "mrt_station_retail_dynamics_loop.gif"
     palette_frames[0].save(
@@ -530,8 +539,9 @@ def save_outputs() -> None:
     )
 
     static_fig = draw_station_frame("zhongshan", categories)
-    static_fig.savefig(CHARTS_DIR / "mrt_station_retail_dynamics_frontpage.png", dpi=160, facecolor=BG)
+    static_fig.savefig(CHARTS_DIR / "mrt_station_retail_dynamics_frontpage.png", dpi=120, facecolor=BG)
     plt.close(static_fig)
+    print("Saved front-page dashboard assets")
 
 
 if __name__ == "__main__":

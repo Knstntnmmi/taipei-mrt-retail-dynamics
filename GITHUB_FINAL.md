@@ -1,5 +1,9 @@
 # Taipei MRT Retail Dynamics
 
+![Dark station-level business turnover summary](outputs/charts/readme_dark_summary.svg)
+
+![Animated station-by-station MRT retail dynamics loop](outputs/charts/mrt_station_retail_dynamics_loop.gif)
+
 This repository is the final GitHub-facing version of the Taipei MRT retail dynamics project. The analysis focuses on business openings and closures around three MRT station areas using 500 m catchments:
 
 - Gongguan: student food node
@@ -9,8 +13,6 @@ This repository is the final GitHub-facing version of the Taipei MRT retail dyna
 ## Front-Page Visual
 
 The main GitHub visual is a smooth looping animation focused on station-level business activity around the three MRT stations:
-
-![Animated station-by-station MRT retail dynamics loop](outputs/charts/mrt_station_retail_dynamics_loop.gif)
 
 It shows each station's:
 
